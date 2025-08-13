@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bharat AI - Voice Assistant</title>
+    <title>Bharat AI - Advanced Voice Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -20,7 +20,6 @@
             --holi: #9c27b0;
             --independence: #FF9933;
             --festival-theme: var(--diwali);
-            --festival-light: var(--diwali-light);
             --card-bg: rgba(255, 255, 255, 0.05);
             --card-border: rgba(255, 255, 255, 0.1);
         }
@@ -37,7 +36,6 @@
             color: var(--light);
             min-height: 100vh;
             overflow-x: hidden;
-            transition: background 0.5s;
             padding: 20px;
         }
         
@@ -228,102 +226,120 @@
             transform: translateY(-3px);
         }
         
-        /* Devices Section */
-        .devices-section {
+        /* Solutions Section */
+        .solutions-section {
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 20px;
             border: 1px solid var(--card-border);
+            display: none;
         }
         
-        .devices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .device-card {
-            background: rgba(255,255,255,0.07);
-            border-radius: 12px;
-            padding: 15px;
+        .solution-header {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transition: all 0.3s ease;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .solution-content {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 20px;
             border: 1px solid var(--card-border);
         }
         
-        .device-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            border-color: rgba(0,198,255,0.3);
+        .solution-title {
+            font-size: 22px;
+            color: var(--accent);
+            margin-bottom: 10px;
         }
         
-        .device-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .solution-steps {
+            margin: 15px 0;
+            padding-left: 20px;
         }
         
-        .device-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
+        .solution-steps li {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+        
+        .solution-links {
+            margin-top: 20px;
+        }
+        
+        .solution-link {
+            display: block;
+            padding: 10px;
             background: rgba(0,198,255,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .solution-link:hover {
+            background: rgba(0,198,255,0.2);
+            transform: translateX(5px);
+        }
+        
+        .solution-video {
+            margin-top: 20px;
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        
+        .solution-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .google-results {
+            margin-top: 20px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .google-result {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .google-result:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .google-title {
+            font-size: 18px;
+            margin-bottom: 5px;
             color: var(--accent);
         }
         
-        .device-info h3 {
-            font-size: 16px;
-            margin-bottom: 3px;
-        }
-        
-        .device-info p {
-            font-size: 13px;
+        .google-snippet {
+            font-size: 14px;
             opacity: 0.8;
         }
         
-        .device-status {
-            height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        
-        .status-bar {
-            height: 100%;
-            border-radius: 10px;
-            background: var(--success);
-            transition: width 0.5s ease;
-        }
-        
-        .device-actions {
-            display: flex;
-            justify-content: space-between;
+        .google-link {
+            display: inline-block;
             margin-top: 8px;
-        }
-        
-        .action-btn {
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 13px;
-        }
-        
-        .action-btn:hover {
-            background: var(--accent);
-            color: var(--dark);
+            color: #8ab4f8;
+            text-decoration: none;
         }
         
         /* Cultural Sidebar */
@@ -376,166 +392,6 @@
             margin: 10px 0;
         }
         
-        /* Key Generator */
-        .key-generator {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .key-display {
-            background: rgba(0,0,0,0.3);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            word-break: break-all;
-            font-family: monospace;
-            border: 1px solid var(--card-border);
-            height: 90px;
-            overflow-y: auto;
-        }
-        
-        .generate-btn {
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.4);
-        }
-        
-        /* Security Section */
-        .security-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 12px;
-        }
-        
-        .security-card {
-            background: rgba(255,255,255,0.07);
-            border-radius: 12px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 8px;
-            border: 1px solid var(--card-border);
-        }
-        
-        .security-card i {
-            font-size: 20px;
-            color: var(--accent);
-        }
-        
-        .security-card h4 {
-            font-size: 14px;
-        }
-        
-        .security-card p {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-        
-        /* Language Selector */
-        .language-selector {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 12px;
-        }
-        
-        .lang-btn {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-        
-        .lang-btn.active {
-            background: var(--accent);
-            color: var(--dark);
-            border-color: var(--accent);
-        }
-        
-        /* Help Section */
-        .help-section {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid var(--card-border);
-        }
-        
-        .help-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .help-card {
-            background: rgba(0,0,0,0.2);
-            border-radius: 12px;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border: 1px solid var(--card-border);
-        }
-        
-        .help-card i {
-            font-size: 24px;
-            color: var(--accent);
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 25px 0;
-            margin-top: 30px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
-            opacity: 0.8;
-        }
-        
-        .signature {
-            font-weight: 600;
-            color: var(--accent);
-            margin-top: 8px;
-            font-size: 15px;
-        }
-        
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
-            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(142, 45, 226, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
-        }
-        
-        @keyframes pulse-active {
-            0% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
-            50% { box-shadow: 0 0 40px rgba(0, 198, 255, 1); }
-            100% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
-        }
-        
         /* Responsive Design */
         @media (max-width: 900px) {
             .main-grid {
@@ -562,36 +418,32 @@
                 height: 120px;
             }
             
-            .devices-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-            
-            .security-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .logo-text {
-                font-size: 20px;
-            }
-            
-            .section-title {
-                font-size: 18px;
+            .solution-video {
+                padding-bottom: 75%; /* 4:3 for mobile */
             }
         }
         
-        @media (max-width: 480px) {
-            .devices-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .voice-circle {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .voice-circle i {
-                font-size: 40px;
-            }
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(142, 45, 226, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
+        }
+        
+        @keyframes pulse-active {
+            0% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(0, 198, 255, 1); }
+            100% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
+        }
+        
+        /* Solution animation */
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .solutions-section {
+            animation: slideIn 0.5s ease forwards;
         }
     </style>
 </head>
@@ -639,151 +491,50 @@
                         <div class="voice-status" id="voiceStatus">Tap and speak to activate</div>
                         
                         <div class="command-display" id="commandDisplay">
-                            Try: "What's the weather today?" or "Turn on the lights"
+                            Try: "How to fix my Wi-Fi?" or "Show me Google results for charging issues"
                         </div>
                         
                         <div class="language-selector">
                             <button class="lang-btn active" id="langEnglish">English</button>
                             <button class="lang-btn" id="langHindi">हिंदी</button>
                         </div>
-                        
-                        <div class="command-examples">
-                            <div class="command-chip">"What's the time?"</div>
-                            <div class="command-chip">"Set a reminder"</div>
-                            <div class="command-chip">"Play music"</div>
-                            <div class="command-chip">"Find solutions"</div>
-                        </div>
                     </div>
                 </div>
                 
-                <!-- Devices Section -->
-                <div class="devices-section">
-                    <div class="section-title">
-                        <i class="fas fa-plug"></i>
-                        <h2>Smart Home Control</h2>
-                    </div>
-                    
-                    <div class="devices-grid">
-                        <div class="device-card">
-                            <div class="device-header">
-                                <div class="device-icon">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <div class="device-info">
-                                    <h3>Living Room</h3>
-                                    <p>Status: Off</p>
-                                </div>
-                            </div>
-                            <div class="device-status">
-                                <div class="status-bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="device-actions">
-                                <button class="action-btn" data-device="lights" data-action="on">On</button>
-                                <button class="action-btn" data-device="lights" data-action="off">Off</button>
-                            </div>
-                        </div>
-                        
-                        <div class="device-card">
-                            <div class="device-header">
-                                <div class="device-icon">
-                                    <i class="fas fa-thermometer-half"></i>
-                                </div>
-                                <div class="device-info">
-                                    <h3>AC Temperature</h3>
-                                    <p>Current: 24°C</p>
-                                </div>
-                            </div>
-                            <div class="device-status">
-                                <div class="status-bar" style="width: 70%;"></div>
-                            </div>
-                            <div class="device-actions">
-                                <button class="action-btn" data-device="ac" data-action="down">-</button>
-                                <button class="action-btn" data-device="ac" data-action="up">+</button>
-                            </div>
-                        </div>
-                        
-                        <div class="device-card">
-                            <div class="device-header">
-                                <div class="device-icon">
-                                    <i class="fas fa-tv"></i>
-                                </div>
-                                <div class="device-info">
-                                    <h3>Smart TV</h3>
-                                    <p>Status: Off</p>
-                                </div>
-                            </div>
-                            <div class="device-status">
-                                <div class="status-bar" style="width: 0%;"></div>
-                            </div>
-                            <div class="device-actions">
-                                <button class="action-btn" data-device="tv" data-action="on">On</button>
-                                <button class="action-btn" data-device="tv" data-action="off">Off</button>
-                            </div>
-                        </div>
-                        
-                        <div class="device-card">
-                            <div class="device-header">
-                                <div class="device-icon">
-                                    <i class="fas fa-lock"></i>
-                                </div>
-                                <div class="device-info">
-                                    <h3>Main Door</h3>
-                                    <p>Status: Locked</p>
-                                </div>
-                            </div>
-                            <div class="device-status">
-                                <div class="status-bar" style="width: 100%;"></div>
-                            </div>
-                            <div class="device-actions">
-                                <button class="action-btn" data-device="door" data-action="lock">Lock</button>
-                                <button class="action-btn" data-device="door" data-action="unlock">Unlock</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Help Section -->
-                <div class="help-section">
-                    <div class="section-title">
-                        <i class="fas fa-question-circle"></i>
-                        <h2>How Can I Help You?</h2>
-                    </div>
-                    
-                    <div class="help-grid">
-                        <div class="help-card">
-                            <i class="fas fa-weather"></i>
-                            <h3>Weather Info</h3>
-                            <p>Get current weather and forecasts</p>
-                        </div>
-                        
-                        <div class="help-card">
-                            <i class="fas fa-calendar-check"></i>
-                            <h3>Set Reminders</h3>
-                            <p>Schedule tasks and appointments</p>
-                        </div>
-                        
-                        <div class="help-card">
-                            <i class="fas fa-music"></i>
-                            <h3>Play Music</h3>
-                            <p>Stream your favorite songs</p>
-                        </div>
-                        
-                        <div class="help-card">
+                <!-- Solutions Section -->
+                <div class="solutions-section" id="solutionsSection">
+                    <div class="solution-header">
+                        <div class="section-title">
                             <i class="fas fa-lightbulb"></i>
-                            <h3>Smart Home</h3>
-                            <p>Control your connected devices</p>
+                            <h2 id="solutionHeader">Recommended Solution</h2>
+                        </div>
+                        <button id="closeSolution" style="background: none; border: none; color: white; font-size: 20px; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="solution-content">
+                        <h3 class="solution-title" id="solutionTitle">Fixing Device Charging Issues</h3>
+                        <p id="solutionDescription">Here's how to troubleshoot and fix common charging problems:</p>
+                        
+                        <ol class="solution-steps" id="solutionSteps">
+                            <!-- Steps will be populated by JavaScript -->
+                        </ol>
+                        
+                        <div class="solution-links" id="solutionLinks">
+                            <!-- Links will be populated by JavaScript -->
                         </div>
                         
-                        <div class="help-card">
-                            <i class="fas fa-language"></i>
-                            <h3>Translation</h3>
-                            <p>Translate between English and Hindi</p>
+                        <div class="solution-video">
+                            <iframe id="solutionVideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                         
-                        <div class="help-card">
-                            <i class="fas fa-search"></i>
-                            <h3>Find Solutions</h3>
-                            <p>Get answers to your questions</p>
+                        <!-- Google Results Section -->
+                        <div class="google-results" id="googleResults">
+                            <h3><i class="fab fa-google"></i> Google Results</h3>
+                            <div id="googleResultsContent">
+                                <!-- Google results will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -797,13 +548,13 @@
                     </div>
                     
                     <div class="festival-display">
-                        <div class="festival-icon" id="festivalIcon">
+                        <div class="festival-icon">
                             <i class="fas fa-diya-lamp"></i>
                         </div>
-                        <div class="festival-name" id="festivalName">Diwali Festival</div>
-                        <div class="festival-message" id="festivalMessage">Festival of Lights - Celebrating Good Over Evil</div>
+                        <div class="festival-name">Diwali Festival</div>
+                        <div class="festival-message">Festival of Lights - Celebrating Good Over Evil</div>
                         
-                        <div class="mantra-box" id="mantraBox">
+                        <div class="mantra-box">
                             असतो मा सद्गमय<br>
                             तमसो मा ज्योतिर्गमय<br>
                             मृत्योर्मा अमृतं गमय<br>
@@ -814,69 +565,69 @@
                 
                 <div class="cultural-card">
                     <div class="section-title">
-                        <i class="fas fa-key"></i>
-                        <h2>Security Center</h2>
+                        <i class="fas fa-question-circle"></i>
+                        <h2>Common Problems</h2>
                     </div>
                     
-                    <div class="key-generator">
-                        <div class="key-display" id="keyDisplay">
-                            Your secure key will appear here
-                        </div>
-                        <button class="generate-btn" id="generateBtn">
-                            <i class="fas fa-sync-alt"></i>
-                            Generate Secure Key
-                        </button>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                        <button class="command-chip" data-problem="wifi">Wi-Fi Connection Issues</button>
+                        <button class="command-chip" data-problem="charging">Device Not Charging</button>
+                        <button class="command-chip" data-problem="slow">Slow Device Performance</button>
+                        <button class="command-chip" data-problem="battery">Battery Draining Fast</button>
+                        <button class="command-chip" data-problem="sound">No Sound on Device</button>
+                        <button class="command-chip" id="googleSearchBtn">Search Google for Solutions</button>
+                    </div>
+                </div>
+                
+                <div class="cultural-card">
+                    <div class="section-title">
+                        <i class="fas fa-plus-circle"></i>
+                        <h2>New Features</h2>
                     </div>
                     
-                    <div class="security-grid">
-                        <div class="security-card">
-                            <i class="fas fa-microchip"></i>
-                            <h4>TPM Encryption</h4>
-                            <p>Hardware-level Security</p>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                        <div class="feature">
+                            <i class="fas fa-language"></i> Real-time Translation
                         </div>
-                        <div class="security-card">
-                            <i class="fas fa-fingerprint"></i>
-                            <h4>Biometric Auth</h4>
-                            <p>Voice Recognition</p>
+                        <div class="feature">
+                            <i class="fas fa-video"></i> Video Call Assistance
                         </div>
-                        <div class="security-card">
-                            <i class="fas fa-shield-alt"></i>
-                            <h4>Zero Trust</h4>
-                            <p>Continuous Verification</p>
+                        <div class="feature">
+                            <i class="fas fa-robot"></i> AI Problem Diagnosis
                         </div>
-                        <div class="security-card">
-                            <i class="fas fa-file-shield"></i>
-                            <h4>Secure Logging</h4>
-                            <p>Tamper-proof Records</p>
+                        <div class="feature">
+                            <i class="fas fa-calendar-alt"></i> Appointment Scheduling
+                        </div>
+                        <div class="feature">
+                            <i class="fab fa-google"></i> Google Search Integration
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>Bharat AI Voice Assistant System</p>
-            <p class="signature">Designed and Developed by Abhishek Agrahari</p>
-            <p>© 2025 BharatOS Technologies. All Rights Reserved.</p>
-        </footer>
     </div>
-    
+
     <script>
         // DOM Elements
         const voiceCircle = document.getElementById('voiceCircle');
         const voiceStatus = document.getElementById('voiceStatus');
         const commandDisplay = document.getElementById('commandDisplay');
-        const generateBtn = document.getElementById('generateBtn');
-        const keyDisplay = document.getElementById('keyDisplay');
-        const langEnglish = document.getElementById('langEnglish');
-        const langHindi = document.getElementById('langHindi');
-        const festivalIcon = document.getElementById('festivalIcon');
-        const festivalName = document.getElementById('festivalName');
-        const festivalMessage = document.getElementById('festivalMessage');
-        const mantraBox = document.getElementById('mantraBox');
+        const solutionsSection = document.getElementById('solutionsSection');
+        const solutionHeader = document.getElementById('solutionHeader');
+        const solutionTitle = document.getElementById('solutionTitle');
+        const solutionDescription = document.getElementById('solutionDescription');
+        const solutionSteps = document.getElementById('solutionSteps');
+        const solutionLinks = document.getElementById('solutionLinks');
+        const solutionVideo = document.getElementById('solutionVideo');
+        const googleResults = document.getElementById('googleResults');
+        const googleResultsContent = document.getElementById('googleResultsContent');
         const searchBox = document.getElementById('searchBox');
         const searchBtn = document.getElementById('searchBtn');
+        const closeSolution = document.getElementById('closeSolution');
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const langEnglish = document.getElementById('langEnglish');
+        const langHindi = document.getElementById('langHindi');
+        const googleSearchBtn = document.getElementById('googleSearchBtn');
         
         // Speech recognition variables
         let recognition;
@@ -884,45 +635,44 @@
         let currentLang = 'en-US';
         let synth = window.speechSynthesis;
         
-        // Set up festival theme based on current date
-        function setFestivalTheme() {
-            const today = new Date();
-            const month = today.getMonth() + 1; // January is 0
-            const day = today.getDate();
-            
-            // Diwali - October/November
-            if ((month === 10 && day >= 20) || (month === 11 && day <= 15)) {
-                document.documentElement.style.setProperty('--festival-theme', 'var(--diwali)');
-                festivalIcon.innerHTML = '<i class="fas fa-diya-lamp"></i>';
-                festivalName.textContent = 'Diwali Festival';
-                festivalMessage.textContent = 'Festival of Lights - Celebrating Good Over Evil';
-                mantraBox.innerHTML = 'असतो मा सद्गमय<br>तमसो मा ज्योतिर्गमय<br>मृत्योर्मा अमृतं गमय<br>ॐ शान्तिः शान्तिः शान्तिः';
+        // Solutions database
+        const solutions = {
+            wifi: {
+                title: "Fixing Wi-Fi Connection Issues",
+                description: "Follow these steps to troubleshoot Wi-Fi problems:",
+                steps: [
+                    "Restart your router and modem by unplugging them for 30 seconds",
+                    "Check if other devices can connect to the same Wi-Fi network",
+                    "Forget the network on your device and reconnect",
+                    "Update your device's network drivers or firmware",
+                    "Reset network settings on your device"
+                ],
+                links: [
+                    {text: "Official Wi-Fi Troubleshooting Guide", url: "https://www.wi-fi.org/discover-wi-fi/security"},
+                    {text: "How to Reset Network Settings", url: "https://www.android.com/reset-network-settings/"},
+                    {text: "Advanced Router Configuration", url: "https://www.cisco.com/c/en/us/support/docs/routers/wireless-routers/"}
+                ],
+                video: "https://www.youtube.com/embed/WnJc_3iM7Xo"
+            },
+            charging: {
+                title: "Fixing Device Charging Issues",
+                description: "Troubleshoot charging problems with these steps:",
+                steps: [
+                    "Try a different charging cable and power adapter",
+                    "Clean the charging port with compressed air or a soft brush",
+                    "Check for debris or lint in the charging port",
+                    "Restart your device while plugged in",
+                    "Try charging from a computer USB port",
+                    "Check battery health in device settings"
+                ],
+                links: [
+                    {text: "Charging Port Cleaning Guide", url: "https://www.ifixit.com/Guide/How+to+Clean+Your+Device's+Charging+Port/116130"},
+                    {text: "Battery Health Information", url: "https://www.apple.com/batteries/"},
+                    {text: "Replacing Charging Port Guide", url: "https://www.ifixit.com/Device/Charging_Port"}
+                ],
+                video: "https://www.youtube.com/embed/3v6r5YyX7n8"
             }
-            // Holi - March
-            else if (month === 3 && day >= 1 && day <= 31) {
-                document.documentElement.style.setProperty('--festival-theme', 'var(--holi)');
-                festivalIcon.innerHTML = '<i class="fas fa-paint-brush"></i>';
-                festivalName.textContent = 'Holi Festival';
-                festivalMessage.textContent = 'Festival of Colors - Celebrating Spring and Love';
-                mantraBox.innerHTML = 'रंगों का त्योहार, खुशियों का संगम<br>होली की हार्दिक शुभकामनाएं!';
-            }
-            // Independence Day - August 15
-            else if (month === 8 && day === 15) {
-                document.documentElement.style.setProperty('--festival-theme', 'var(--independence)');
-                festivalIcon.innerHTML = '<i class="fas fa-flag"></i>';
-                festivalName.textContent = 'Independence Day';
-                festivalMessage.textContent = 'Celebrating India\'s Freedom and Sovereignty';
-                mantraBox.innerHTML = 'स्वतंत्रता दिवस की हार्दिक शुभकामनाएं<br>जय हिन्द!';
-            }
-            // Default theme
-            else {
-                document.documentElement.style.setProperty('--festival-theme', 'var(--accent)');
-                festivalIcon.innerHTML = '<i class="fas fa-om"></i>';
-                festivalName.textContent = 'Bharat Culture';
-                festivalMessage.textContent = 'Celebrating India\'s Rich Heritage and Traditions';
-                mantraBox.innerHTML = 'वसुधैव कुटुम्बकम्<br>(The World Is One Family)';
-            }
-        }
+        };
         
         // Initialize speech recognition
         function initSpeechRecognition() {
@@ -938,7 +688,7 @@
                     isRecognizing = true;
                     voiceCircle.classList.add('active');
                     voiceStatus.textContent = "Listening... Speak now";
-                    speakText("How can I help you?");
+                    commandDisplay.textContent = "Listening...";
                 };
                 
                 recognition.onresult = (event) => {
@@ -995,7 +745,6 @@
             }
             
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = currentLang;
             utterance.pitch = 1;
             utterance.rate = 1;
             synth.speak(utterance);
@@ -1004,227 +753,108 @@
         // Process voice commands
         function processVoiceCommand(transcript) {
             const command = transcript.toLowerCase();
-            let response = `Command: "${transcript}"`;
             
-            // Process English commands
-            if (currentLang === 'en-US') {
-                if (command.includes('hello') || command.includes('hi')) {
-                    response = "Hello! How can I assist you today?";
-                    speakText("Hello! How can I assist you today?");
-                }
-                else if (command.includes('light') || command.includes('lamp') || command.includes('bulb')) {
-                    if (command.includes('on') || command.includes('activate')) {
-                        toggleDevice('lights', 'on');
-                        response = "Turning on living room lights";
-                        speakText("Lights are now on");
-                    } else if (command.includes('off') || command.includes('deactivate')) {
-                        toggleDevice('lights', 'off');
-                        response = "Turning off living room lights";
-                        speakText("Lights are now off");
-                    }
-                }
-                else if (command.includes('temperature') || command.includes('ac') || command.includes('cool')) {
-                    const tempMatch = command.match(/\d+/);
-                    if (tempMatch) {
-                        const temp = parseInt(tempMatch[0]);
-                        setTemperature(temp);
-                        response = `Setting AC temperature to ${temp}°C`;
-                        speakText(`Temperature set to ${temp} degrees`);
-                    } else if (command.includes('up') || command.includes('increase')) {
-                        adjustTemperature('up');
-                        response = "Increasing temperature";
-                        speakText("Temperature increased");
-                    } else if (command.includes('down') || command.includes('decrease')) {
-                        adjustTemperature('down');
-                        response = "Decreasing temperature";
-                        speakText("Temperature decreased");
-                    }
-                }
-                else if (command.includes('time')) {
-                    const now = new Date();
-                    const timeString = now.toLocaleTimeString();
-                    response = `Current time is ${timeString}`;
-                    speakText(`The time is ${timeString}`);
-                }
-                else if (command.includes('help')) {
-                    response = "I can help with weather, reminders, device control, translations, and more!";
-                    speakText("I can help with weather, reminders, device control, translations, and more!");
-                }
-                else if (command.includes('problem') || command.includes('issue') || command.includes('solution')) {
-                    response = "I'd be happy to help. Could you describe your problem in more detail?";
-                    speakText("I'd be happy to help. Could you describe your problem in more detail?");
-                }
-                else {
-                    response = "I'm processing your request. Please wait...";
-                    speakText("I'm processing your request. Please wait...");
-                    
-                    // Simulate finding solutions
-                    setTimeout(() => {
-                        commandDisplay.textContent = "I found several solutions for you. How can I assist further?";
-                        speakText("I found several solutions for you. How can I assist further?");
-                    }, 2000);
-                }
-            }
-            // Process Hindi commands
-            else if (currentLang === 'hi-IN') {
-                if (command.includes('नमस्ते') || command.includes('हैलो')) {
-                    response = "नमस्ते! मैं आपकी कैसे सहायता कर सकता हूँ?";
-                    speakText("नमस्ते! मैं आपकी कैसे सहायता कर सकता हूँ?");
-                }
-                else if (command.includes('बल्ब') || command.includes('लाइट') || command.includes('रोशनी')) {
-                    if (command.includes('चालू') || command.includes('ऑन')) {
-                        toggleDevice('lights', 'on');
-                        response = "लिविंग रूम की लाइट्स चालू की जा रही हैं";
-                        speakText("लाइट चालू हो गई हैं");
-                    } else if (command.includes('बंद') || command.includes('ऑफ')) {
-                        toggleDevice('lights', 'off');
-                        response = "लिविंग रूम की लाइट्स बंद की जा रही हैं";
-                        speakText("लाइट बंद हो गई हैं");
-                    }
-                }
-                else if (command.includes('समय')) {
-                    const now = new Date();
-                    const timeString = now.toLocaleTimeString('hi-IN');
-                    response = `वर्तमान समय ${timeString} है`;
-                    speakText(`वर्तमान समय ${timeString} है`);
-                }
-                else if (command.includes('मदद')) {
-                    response = "मैं मौसम, अनुस्मारक, उपकरण नियंत्रण, अनुवाद और बहुत कुछ में मदद कर सकता हूँ!";
-                    speakText("मैं मौसम, अनुस्मारक, उपकरण नियंत्रण, अनुवाद और बहुत कुछ में मदद कर सकता हूँ!");
-                }
-                else if (command.includes('समस्या') || command.includes('मुश्किल') || command.includes('हल')) {
-                    response = "मुझे आपकी मदद करने में खुशी होगी। क्या आप अपनी समस्या को विस्तार से बता सकते हैं?";
-                    speakText("मुझे आपकी मदद करने में खुशी होगी। क्या आप अपनी समस्या को विस्तार से बता सकते हैं?");
-                }
-                else {
-                    response = "मैं आपका अनुरोध संसाधित कर रहा हूँ। कृपया प्रतीक्षा करें...";
-                    speakText("मैं आपका अनुरोध संसाधित कर रहा हूँ। कृपया प्रतीक्षा करें...");
-                    
-                    // Simulate finding solutions
-                    setTimeout(() => {
-                        commandDisplay.textContent = "मुझे आपके लिए कई समाधान मिले हैं। मैं और कैसे सहायता कर सकता हूँ?";
-                        speakText("मुझे आपके लिए कई समाधान मिले हैं। मैं और कैसे सहायता कर सकता हूँ?");
-                    }, 2000);
-                }
-            }
+            // Show processing message
+            commandDisplay.textContent = "Finding solutions for you...";
+            speakText("I'm searching for solutions to your problem");
             
-            commandDisplay.textContent = response;
-            
-            // Show processing animation
-            voiceStatus.innerHTML = '<i class="fas fa-cog fa-spin"></i> Processing command...';
+            // Find matching solution
             setTimeout(() => {
-                voiceStatus.textContent = "Tap and speak to activate";
-            }, 2000);
-        }
-        
-        // Toggle device state
-        function toggleDevice(device, action) {
-            const deviceCards = document.querySelectorAll('.device-card');
-            
-            deviceCards.forEach(card => {
-                const deviceName = card.querySelector('h3').textContent.toLowerCase();
-                
-                if (
-                    (device === 'lights' && deviceName.includes('living')) ||
-                    (device === 'tv' && deviceName.includes('tv')) ||
-                    (device === 'door' && deviceName.includes('door'))
-                ) {
-                    const statusBar = card.querySelector('.status-bar');
-                    const statusText = card.querySelector('.device-info p');
-                    const actionBtn = card.querySelector(`.action-btn[data-action="${action}"]`);
+                if (command.includes('wifi') || command.includes('internet') || command.includes('network')) {
+                    showSolution('wifi');
+                    speakText("Here are solutions for Wi-Fi connection issues");
+                } 
+                else if (command.includes('charge') || command.includes('charging') || command.includes('battery')) {
+                    showSolution('charging');
+                    speakText("I found solutions for charging problems");
+                }
+                else if (command.includes('google') || command.includes('search')) {
+                    showGoogleResults(command.replace('google', '').replace('search', ''));
+                    speakText("Showing Google search results");
+                }
+                else {
+                    commandDisplay.textContent = "I found several possible solutions. How can I assist further?";
+                    speakText("I found several possible solutions. How can I assist further?");
                     
-                    if (action === 'on' || action === 'unlock') {
-                        statusBar.style.width = '100%';
-                        statusBar.style.background = 'var(--success)';
-                        statusText.textContent = device === 'door' ? 'Status: Unlocked' : 'Status: On';
-                        
-                        // Highlight the correct button
-                        card.querySelectorAll('.action-btn').forEach(btn => {
-                            btn.style.background = '';
-                            btn.style.color = '';
-                        });
-                        if (actionBtn) {
-                            actionBtn.style.background = 'var(--accent)';
-                            actionBtn.style.color = 'var(--dark)';
-                        }
-                    } 
-                    else if (action === 'off' || action === 'lock') {
-                        statusBar.style.width = device === 'door' ? '100%' : '0%';
-                        statusBar.style.background = device === 'door' ? 'var(--warning)' : 'var(--danger)';
-                        statusText.textContent = device === 'door' ? 'Status: Locked' : 'Status: Off';
-                        
-                        // Highlight the correct button
-                        card.querySelectorAll('.action-btn').forEach(btn => {
-                            btn.style.background = '';
-                            btn.style.color = '';
-                        });
-                        if (actionBtn) {
-                            actionBtn.style.background = 'var(--accent)';
-                            actionBtn.style.color = 'var(--dark)';
-                        }
-                    }
+                    // Show default solution
+                    showSolution('wifi');
                 }
-            });
+            }, 1500);
         }
         
-        // Set specific temperature
-        function setTemperature(temp) {
-            const tempCard = document.querySelector('.device-card:nth-child(2)');
-            if (!tempCard) return;
+        // Display solution
+        function showSolution(problemKey) {
+            const solution = solutions[problemKey];
             
-            const statusBar = tempCard.querySelector('.status-bar');
-            const statusText = tempCard.querySelector('.device-info p');
-            
-            // Ensure temperature is within reasonable limits
-            const adjustedTemp = Math.max(16, Math.min(30, temp));
-            const width = ((adjustedTemp - 16) / 14) * 100;
-            
-            statusBar.style.width = `${width}%`;
-            statusText.textContent = `Current: ${adjustedTemp}°C`;
-            
-            // Visual feedback
-            statusBar.style.background = adjustedTemp < 22 ? 'var(--accent)' : 'var(--warning)';
-        }
-        
-        // Adjust temperature up/down
-        function adjustTemperature(direction) {
-            const tempCard = document.querySelector('.device-card:nth-child(2)');
-            if (!tempCard) return;
-            
-            const statusText = tempCard.querySelector('.device-info p');
-            const currentTemp = parseInt(statusText.textContent.match(/\d+/)[0]);
-            
-            const newTemp = direction === 'up' ? currentTemp + 1 : currentTemp - 1;
-            setTemperature(newTemp);
-        }
-        
-        // Generate secure key using Web Crypto API
-        async function generateSecureKey() {
-            try {
-                const array = new Uint8Array(32);
-                crypto.getRandomValues(array);
+            if (solution) {
+                // Update solution content
+                solutionHeader.textContent = "Recommended Solution";
+                solutionTitle.textContent = solution.title;
+                solutionDescription.textContent = solution.description;
                 
-                // Convert to hex string
-                return 'bharat_ai_' + Array.from(array)
-                    .map(b => b.toString(16).padStart(2, '0'))
-                    .join('');
-            } catch (e) {
-                console.error("Crypto API not supported", e);
-                // Fallback to less secure method
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-                let key = '';
-                for (let i = 0; i < 64; i++) {
-                    key += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                return 'bharat_ai_' + key;
+                // Populate steps
+                solutionSteps.innerHTML = '';
+                solution.steps.forEach(step => {
+                    const li = document.createElement('li');
+                    li.textContent = step;
+                    solutionSteps.appendChild(li);
+                });
+                
+                // Populate links
+                solutionLinks.innerHTML = '';
+                solution.links.forEach(link => {
+                    const a = document.createElement('a');
+                    a.href = link.url;
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.className = "solution-link";
+                    a.innerHTML = `<i class="fas fa-external-link-alt"></i> ${link.text}`;
+                    solutionLinks.appendChild(a);
+                });
+                
+                // Set video
+                solutionVideo.src = solution.video;
+                
+                // Show Google results
+                showGoogleResults(solution.title);
+                
+                // Show solution section
+                solutionsSection.style.display = 'block';
             }
+        }
+        
+        // Display Google results
+        function showGoogleResults(query) {
+            solutionHeader.textContent = "Google Enhanced Results";
+            googleResults.style.display = 'block';
+            
+            // Simulate Google search results
+            googleResultsContent.innerHTML = `
+                <div class="google-result">
+                    <div class="google-title">How to Fix ${query} - Official Support</div>
+                    <div class="google-snippet">Comprehensive guide with step-by-step instructions to resolve ${query}. Learn about common issues and solutions.</div>
+                    <a href="https://www.google.com/search?q=${encodeURIComponent(query)}" class="google-link" target="_blank">https://support.google.com/${query.replace(/\s+/g, '-')}</a>
+                </div>
+                <div class="google-result">
+                    <div class="google-title">${query} Troubleshooting Forum</div>
+                    <div class="google-snippet">Community forum where users discuss solutions to ${query}. Find answers from experts and other users.</div>
+                    <a href="https://www.google.com/search?q=${encodeURIComponent(query + ' forum')}" class="google-link" target="_blank">https://forum.techsupport.com/${query.replace(/\s+/g, '-')}</a>
+                </div>
+                <div class="google-result">
+                    <div class="google-title">Video Tutorial: Fixing ${query}</div>
+                    <div class="google-snippet">Step-by-step video guide showing how to resolve ${query} with visual instructions.</div>
+                    <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(query)}" class="google-link" target="_blank">https://youtube.com/tutorials/${query.replace(/\s+/g, '-')}</a>
+                </div>
+                <div class="google-result">
+                    <div class="google-title">Advanced Solutions for ${query}</div>
+                    <div class="google-snippet">Technical deep dive into ${query} with advanced troubleshooting techniques.</div>
+                    <a href="https://www.google.com/search?q=${encodeURIComponent('advanced ' + query)}" class="google-link" target="_blank">https://techexpert.com/${query.replace(/\s+/g, '-')}</a>
+                </div>
+            `;
         }
         
         // Initialize the application
         function initApp() {
-            // Set festival theme
-            setFestivalTheme();
-            
             // Initialize speech recognition
             initSpeechRecognition();
             
@@ -1239,6 +869,56 @@
                 }
             });
             
+            // Search button
+            searchBtn.addEventListener('click', () => {
+                const query = searchBox.value.trim();
+                if (query) {
+                    commandDisplay.textContent = `Searching for: ${query}`;
+                    speakText(`Searching for solutions to ${query}`);
+                    
+                    // Find matching solution
+                    setTimeout(() => {
+                        if (query.toLowerCase().includes('wifi')) {
+                            showSolution('wifi');
+                        } else if (query.toLowerCase().includes('charge')) {
+                            showSolution('charging');
+                        } else {
+                            showGoogleResults(query);
+                        }
+                        speakText("I found solutions for your problem");
+                    }, 1500);
+                }
+            });
+            
+            // Problem buttons
+            document.querySelectorAll('[data-problem]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const problem = button.getAttribute('data-problem');
+                    showSolution(problem);
+                    speakText(`Showing solutions for ${button.textContent}`);
+                });
+            });
+            
+            // Google search button
+            googleSearchBtn.addEventListener('click', () => {
+                const query = searchBox.value.trim() || "tech support solutions";
+                showGoogleResults(query);
+                speakText("Showing Google search results");
+                solutionsSection.style.display = 'block';
+            });
+            
+            // Close solution
+            closeSolution.addEventListener('click', () => {
+                solutionsSection.style.display = 'none';
+                solutionVideo.src = "";
+            });
+            
+            // Mobile menu button
+            mobileMenuBtn.addEventListener('click', () => {
+                const sidebar = document.querySelector('.cultural-sidebar');
+                sidebar.style.display = sidebar.style.display === 'none' ? 'flex' : 'none';
+            });
+            
             // Language selector
             langEnglish.addEventListener('click', () => {
                 if (recognition) {
@@ -1246,7 +926,6 @@
                     currentLang = 'en-US';
                     langEnglish.classList.add('active');
                     langHindi.classList.remove('active');
-                    commandDisplay.textContent = "Try: 'What's the weather today?' or 'Turn on the lights'";
                     speakText("English mode activated");
                 }
             });
@@ -1257,76 +936,8 @@
                     currentLang = 'hi-IN';
                     langHindi.classList.add('active');
                     langEnglish.classList.remove('active');
-                    commandDisplay.textContent = "कोशिश करें: 'आज का मौसम कैसा है?' या 'लाइट चालू करो'";
                     speakText("हिंदी मोड सक्रिय");
                 }
-            });
-            
-            // Generate key button
-            generateBtn.addEventListener('click', async () => {
-                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
-                generateBtn.disabled = true;
-                
-                try {
-                    const key = await generateSecureKey();
-                    keyDisplay.textContent = key;
-                    
-                    generateBtn.innerHTML = '<i class="fas fa-check"></i> Key Generated!';
-                    speakText("Secure key generated successfully");
-                } catch (e) {
-                    keyDisplay.textContent = "Error generating key";
-                    generateBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Try Again';
-                }
-                
-                setTimeout(() => {
-                    generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate Secure Key';
-                    generateBtn.disabled = false;
-                }, 2000);
-            });
-            
-            // Device action buttons
-            document.querySelectorAll('.action-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    const device = button.dataset.device;
-                    const action = button.dataset.action;
-                    
-                    if (device && action) {
-                        toggleDevice(device, action);
-                        speakText(`${device} ${action}`);
-                    }
-                });
-            });
-            
-            // Command chips
-            document.querySelectorAll('.command-chip').forEach(chip => {
-                chip.addEventListener('click', () => {
-                    commandDisplay.textContent = `Command: "${chip.textContent}"`;
-                    speakText("Processing your command");
-                    setTimeout(() => {
-                        processVoiceCommand(chip.textContent.replace(/["]/g, ''));
-                    }, 500);
-                });
-            });
-            
-            // Search button
-            searchBtn.addEventListener('click', () => {
-                const query = searchBox.value.trim();
-                if (query) {
-                    commandDisplay.textContent = `Searching for: ${query}`;
-                    speakText(`Searching for ${query}`);
-                    
-                    // Simulate search results
-                    setTimeout(() => {
-                        commandDisplay.textContent = `I found several results for "${query}". How can I help further?`;
-                        speakText(`I found several results for "${query}". How can I help further?`);
-                    }, 1500);
-                }
-            });
-            
-            // Mobile menu button
-            mobileMenuBtn.addEventListener('click', () => {
-                const sidebar = document.querySelector('.cultural-sidebar');
-                sidebar.style.display = sidebar.style.display === 'none' ? 'flex' : 'none';
             });
         }
         
