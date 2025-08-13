@@ -445,6 +445,29 @@
         .solutions-section {
             animation: slideIn 0.5s ease forwards;
         }
+
+        /* Language buttons */
+        .language-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .lang-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -452,7 +475,7 @@
         <header>
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-om"></i>
+                    <i class="fas fa-peace"></i> <!-- Changed from fa-om -->
                 </div>
                 <div class="logo-text">Bharat AI</div>
             </div>
@@ -543,7 +566,7 @@
             <div class="cultural-sidebar">
                 <div class="cultural-card">
                     <div class="section-title">
-                        <i class="fas fa-festival"></i>
+                        <i class="fas fa-gopuram"></i> <!-- Changed from fa-festival -->
                         <h2>Cultural Elements</h2>
                     </div>
                     
@@ -674,72 +697,90 @@
             }
         };
         
-        // Initialize speech recognition
-        function initSpeechRecognition() {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
-            if (SpeechRecognition) {
-                recognition = new SpeechRecognition();
-                recognition.continuous = false;
-                recognition.interimResults = true;
-                recognition.lang = currentLang;
-                
-                recognition.onstart = () => {
-                    isRecognizing = true;
-                    voiceCircle.classList.add('active');
-                    voiceStatus.textContent = "Listening... Speak now";
-                    commandDisplay.textContent = "Listening...";
-                };
-                
-                recognition.onresult = (event) => {
-                    let transcript = '';
-                    let finalTranscript = '';
-                    
-                    // Process all results
-                    for (let i = event.resultIndex; i < event.results.length; ++i) {
-                        const result = event.results[i];
-                        const text = result[0].transcript;
-                        
-                        if (result.isFinal) {
-                            finalTranscript += text;
-                        } else {
-                            transcript += text;
-                        }
-                    }
-                    
-                    // Display interim results
-                    if (transcript) {
-                        commandDisplay.textContent = transcript;
-                    }
-                    
-                    // Process final results
-                    if (finalTranscript) {
-                        commandDisplay.textContent = finalTranscript;
-                        processVoiceCommand(finalTranscript);
-                    }
-                };
-                
-                recognition.onend = () => {
-                    isRecognizing = false;
-                    voiceCircle.classList.remove('active');
-                    voiceStatus.textContent = "Tap and speak to activate";
-                };
-                
-                recognition.onerror = (event) => {
-                    console.error('Speech recognition error', event.error);
-                    voiceStatus.textContent = `Error: ${event.error}`;
-                    isRecognizing = false;
-                    voiceCircle.classList.remove('active');
-                };
-            } else {
-                voiceStatus.textContent = "Speech recognition not supported in this browser";
+        // Check for speech recognition support
+        function checkSpeechRecognitionSupport() {
+            if (!('webkitSpeechRecognition' in window) {
+                voiceStatus.textContent = "Speech recognition not supported in your browser";
                 voiceCircle.style.opacity = "0.5";
                 voiceCircle.style.cursor = "not-allowed";
+                return false;
             }
+            return true;
         }
         
-        // Text-to-speech function
+        // Initialize speech recognition
+        function initSpeechRecognition() {
+            if (!checkSpeechRecognitionSupport()) return;
+            
+            recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.lang = currentLang;
+            
+            recognition.onstart = () => {
+                isRecognizing = true;
+                voiceCircle.classList.add('active');
+                voiceStatus.textContent = "Listening... Speak now";
+                commandDisplay.textContent = "Listening...";
+            };
+            
+            recognition.onresult = (event) => {
+                let transcript = '';
+                let finalTranscript = '';
+                
+                // Process all results
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    const result = event.results[i];
+                    const text = result[0].transcript;
+                    
+                    if (result.isFinal) {
+                        finalTranscript += text;
+                    } else {
+                        transcript += text;
+                    }
+                }
+                
+                // Display interim results
+                if (transcript) {
+                    commandDisplay.textContent = transcript;
+                }
+                
+                // Process final results
+                if (finalTranscript) {
+                    commandDisplay.textContent = finalTranscript;
+                    processVoiceCommand(finalTranscript);
+                }
+            };
+            
+            recognition.onend = () => {
+                isRecognizing = false;
+                voiceCircle.classList.remove('active');
+                if (!commandDisplay.textContent.includes("Found")) {
+                    voiceStatus.textContent = "Tap and speak to activate";
+                }
+            };
+            
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error', event.error);
+                voiceStatus.textContent = `Error: ${event.error}`;
+                isRecognizing = false;
+                voiceCircle.classList.remove('active');
+                
+                // Special handling for no-speech error
+                if (event.error === 'no-speech') {
+                    commandDisplay.textContent = "No speech detected. Try again.";
+                    speakText("I didn't hear anything. Please try again.");
+                }
+            };
+        }
+        
+        // Text-to-speech function with error handling
         function speakText(text) {
+            if (!synth) {
+                console.warn("Speech synthesis not supported");
+                return;
+            }
+            
             if (synth.speaking) {
                 synth.cancel();
             }
@@ -747,6 +788,12 @@
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.pitch = 1;
             utterance.rate = 1;
+            utterance.lang = currentLang;
+            
+            utterance.onerror = (event) => {
+                console.error("Speech synthesis error", event);
+            };
+            
             synth.speak(utterance);
         }
         
@@ -812,14 +859,15 @@
                     solutionLinks.appendChild(a);
                 });
                 
-                // Set video
-                solutionVideo.src = solution.video;
+                // Set video with autoplay parameter
+                solutionVideo.src = solution.video + "?autoplay=1";
                 
                 // Show Google results
                 showGoogleResults(solution.title);
                 
                 // Show solution section
                 solutionsSection.style.display = 'block';
+                window.scrollTo({ top: solutionsSection.offsetTop - 20, behavior: 'smooth' });
             }
         }
         
@@ -855,17 +903,30 @@
         
         // Initialize the application
         function initApp() {
+            // Check for speech synthesis support
+            if (!window.speechSynthesis) {
+                console.warn("Text-to-speech not supported");
+            }
+            
             // Initialize speech recognition
             initSpeechRecognition();
             
             // Voice circle click handler
             voiceCircle.addEventListener('click', () => {
-                if (!recognition) return;
+                if (!recognition) {
+                    voiceStatus.textContent = "Speech recognition not available";
+                    return;
+                }
                 
                 if (isRecognizing) {
                     recognition.stop();
                 } else {
-                    recognition.start();
+                    try {
+                        recognition.start();
+                    } catch (error) {
+                        voiceStatus.textContent = "Error starting recognition";
+                        console.error("Recognition start error:", error);
+                    }
                 }
             });
             
@@ -905,12 +966,14 @@
                 showGoogleResults(query);
                 speakText("Showing Google search results");
                 solutionsSection.style.display = 'block';
+                window.scrollTo({ top: solutionsSection.offsetTop - 20, behavior: 'smooth' });
             });
             
             // Close solution
             closeSolution.addEventListener('click', () => {
                 solutionsSection.style.display = 'none';
                 solutionVideo.src = "";
+                solutionVideo.removeAttribute('src');
             });
             
             // Mobile menu button
@@ -926,6 +989,13 @@
                     currentLang = 'en-US';
                     langEnglish.classList.add('active');
                     langHindi.classList.remove('active');
+                    
+                    // Restart recognition if it was active
+                    if (isRecognizing) {
+                        recognition.stop();
+                        setTimeout(() => recognition.start(), 300);
+                    }
+                    
                     speakText("English mode activated");
                 }
             });
@@ -936,7 +1006,21 @@
                     currentLang = 'hi-IN';
                     langHindi.classList.add('active');
                     langEnglish.classList.remove('active');
+                    
+                    // Restart recognition if it was active
+                    if (isRecognizing) {
+                        recognition.stop();
+                        setTimeout(() => recognition.start(), 300);
+                    }
+                    
                     speakText("हिंदी मोड सक्रिय");
+                }
+            });
+            
+            // Handle Enter key in search box
+            searchBox.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchBtn.click();
                 }
             });
         }
