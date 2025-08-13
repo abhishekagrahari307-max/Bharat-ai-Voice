@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bharat AI - Voice Command System</title>
+    <title>Bharat AI - Enhanced Voice Command System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -19,8 +19,12 @@
             --danger: #dc3545;
             --diwali: #ff5722;
             --holi: #9c27b0;
+            --independence: #FF9933;
             --diwali-light: #fff3e0;
             --holi-light: #f3e5f5;
+            --independence-light: #e3f2fd;
+            --festival-theme: var(--diwali);
+            --festival-light: var(--diwali-light);
         }
         
         * {
@@ -35,6 +39,7 @@
             color: var(--light);
             min-height: 100vh;
             overflow-x: hidden;
+            transition: background 0.5s;
         }
         
         .container {
@@ -104,6 +109,7 @@
             padding: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .section-title {
@@ -151,6 +157,7 @@
             font-size: 20px;
             text-align: center;
             margin-top: 10px;
+            min-height: 30px;
         }
         
         .command-display {
@@ -257,6 +264,7 @@
             height: 100%;
             border-radius: 10px;
             background: var(--success);
+            transition: width 0.5s ease;
         }
         
         .device-actions {
@@ -303,14 +311,14 @@
         
         .festival-icon {
             font-size: 60px;
-            color: var(--diwali);
+            color: var(--festival-theme);
             margin-bottom: 15px;
         }
         
         .festival-name {
             font-size: 24px;
             margin-bottom: 10px;
-            color: var(--diwali);
+            color: var(--festival-theme);
         }
         
         .festival-message {
@@ -395,6 +403,30 @@
             color: var(--accent);
         }
         
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .lang-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            border-color: var(--accent);
+        }
+        
         /* Footer */
         footer {
             text-align: center;
@@ -450,6 +482,11 @@
             .logo {
                 justify-content: center;
             }
+            
+            .voice-circle {
+                width: 140px;
+                height: 140px;
+            }
         }
     </style>
 </head>
@@ -477,7 +514,7 @@
                     </div>
                     
                     <div class="voice-container">
-                        <div class="voice-circle" id="voiceCircle">
+                        <div class="voice-circle" id="voiceCircle" role="button" aria-label="Activate voice commands">
                             <i class="fas fa-microphone"></i>
                         </div>
                         <div class="voice-status" id="voiceStatus">Click to activate voice command</div>
@@ -491,6 +528,11 @@
                             <div class="command-chip">"Set temperature to 22°C"</div>
                             <div class="command-chip">"Play devotional music"</div>
                             <div class="command-chip">"Lock all doors"</div>
+                        </div>
+                        
+                        <div class="language-selector">
+                            <button class="lang-btn active" id="langEnglish">English</button>
+                            <button class="lang-btn" id="langHindi">हिंदी</button>
                         </div>
                     </div>
                 </div>
@@ -509,15 +551,15 @@
                                 </div>
                                 <div class="device-info">
                                     <h3>Living Room Lights</h3>
-                                    <p>Philips Hue</p>
+                                    <p>Status: Off</p>
                                 </div>
                             </div>
                             <div class="device-status">
-                                <div class="status-bar" style="width: 100%;"></div>
+                                <div class="status-bar" style="width: 0%;"></div>
                             </div>
                             <div class="device-actions">
-                                <button class="action-btn">On</button>
-                                <button class="action-btn">Off</button>
+                                <button class="action-btn" data-device="lights" data-action="on">On</button>
+                                <button class="action-btn" data-device="lights" data-action="off">Off</button>
                             </div>
                         </div>
                         
@@ -535,8 +577,8 @@
                                 <div class="status-bar" style="width: 70%;"></div>
                             </div>
                             <div class="device-actions">
-                                <button class="action-btn">-</button>
-                                <button class="action-btn">+</button>
+                                <button class="action-btn" data-device="ac" data-action="down">-</button>
+                                <button class="action-btn" data-device="ac" data-action="up">+</button>
                             </div>
                         </div>
                         
@@ -547,15 +589,15 @@
                                 </div>
                                 <div class="device-info">
                                     <h3>Smart TV</h3>
-                                    <p>Sony Bravia</p>
+                                    <p>Status: Off</p>
                                 </div>
                             </div>
                             <div class="device-status">
-                                <div class="status-bar" style="width: 40%;"></div>
+                                <div class="status-bar" style="width: 0%;"></div>
                             </div>
                             <div class="device-actions">
-                                <button class="action-btn">On</button>
-                                <button class="action-btn">Off</button>
+                                <button class="action-btn" data-device="tv" data-action="on">On</button>
+                                <button class="action-btn" data-device="tv" data-action="off">Off</button>
                             </div>
                         </div>
                         
@@ -566,15 +608,15 @@
                                 </div>
                                 <div class="device-info">
                                     <h3>Main Door</h3>
-                                    <p>Yale Smart Lock</p>
+                                    <p>Status: Locked</p>
                                 </div>
                             </div>
                             <div class="device-status">
                                 <div class="status-bar" style="width: 100%;"></div>
                             </div>
                             <div class="device-actions">
-                                <button class="action-btn">Lock</button>
-                                <button class="action-btn">Unlock</button>
+                                <button class="action-btn" data-device="door" data-action="lock">Lock</button>
+                                <button class="action-btn" data-device="door" data-action="unlock">Unlock</button>
                             </div>
                         </div>
                     </div>
@@ -589,13 +631,13 @@
                     </div>
                     
                     <div class="festival-display">
-                        <div class="festival-icon">
+                        <div class="festival-icon" id="festivalIcon">
                             <i class="fas fa-diya-lamp"></i>
                         </div>
-                        <div class="festival-name">Diwali Festival</div>
-                        <div class="festival-message">Festival of Lights - Celebrating Good Over Evil</div>
+                        <div class="festival-name" id="festivalName">Diwali Festival</div>
+                        <div class="festival-message" id="festivalMessage">Festival of Lights - Celebrating Good Over Evil</div>
                         
-                        <div class="mantra-box">
+                        <div class="mantra-box" id="mantraBox">
                             असतो मा सद्गमय<br>
                             तमसो मा ज्योतिर्गमय<br>
                             मृत्योर्मा अमृतं गमय<br>
@@ -653,6 +695,11 @@
         </footer>
     </div>
     
+    <!-- Audio elements for feedback -->
+    <audio id="startSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-show-intro-321.mp3"></audio>
+    <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
+    <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
+    
     <script>
         // DOM Elements
         const voiceCircle = document.getElementById('voiceCircle');
@@ -660,145 +707,414 @@
         const commandDisplay = document.getElementById('commandDisplay');
         const generateBtn = document.getElementById('generateBtn');
         const keyDisplay = document.getElementById('keyDisplay');
+        const langEnglish = document.getElementById('langEnglish');
+        const langHindi = document.getElementById('langHindi');
+        const festivalIcon = document.getElementById('festivalIcon');
+        const festivalName = document.getElementById('festivalName');
+        const festivalMessage = document.getElementById('festivalMessage');
+        const mantraBox = document.getElementById('mantraBox');
         
-        // Voice command simulation
-        let isListening = false;
-        const commands = [
-            "Turn on living room lights",
-            "Set AC temperature to 22 degrees",
-            "Play devotional music in the living room",
-            "Lock all doors and windows",
-            "Show me security cameras",
-            "Activate festival lighting mode",
-            "Read today's mantra"
-        ];
+        // Audio elements
+        const startSound = document.getElementById('startSound');
+        const successSound = document.getElementById('successSound');
+        const errorSound = document.getElementById('errorSound');
         
-        // Toggle voice listening state
-        voiceCircle.addEventListener('click', () => {
-            isListening = !isListening;
+        // Speech recognition setup
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition;
+        let currentLang = 'en-US';
+        
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            recognition.lang = currentLang;
             
-            if (isListening) {
+            recognition.onstart = () => {
                 voiceCircle.classList.add('active');
-                voiceCircle.innerHTML = '<i class="fas fa-microphone"></i>';
-                voiceStatus.textContent = "Listening... Say your command";
-                commandDisplay.textContent = "Listening for 'Hey Bharat'...";
-                
-                // Simulate voice command after delay
-                setTimeout(() => {
-                    const randomCommand = commands[Math.floor(Math.random() * commands.length)];
-                    commandDisplay.innerHTML = `<span style="color: var(--accent);">Command:</span> ${randomCommand}`;
-                    voiceStatus.textContent = "Command processed successfully";
-                    
-                    // Simulate action based on command
-                    if (randomCommand.includes('lights')) {
-                        document.querySelector('.device-card:first-child .action-btn:first-child').style.background = 'var(--accent)';
-                        document.querySelector('.device-card:first-child .action-btn:first-child').style.color = 'var(--dark)';
-                    }
-                    
-                    if (randomCommand.includes('temperature')) {
-                        document.querySelector('.device-card:nth-child(2) .status-bar').style.width = '60%';
-                        document.querySelector('.device-card:nth-child(2) .device-info p').textContent = 'Current: 22°C';
-                    }
-                    
-                    // Stop listening after processing
-                    setTimeout(() => {
-                        isListening = false;
-                        voiceCircle.classList.remove('active');
-                        voiceStatus.textContent = "Click to activate voice command";
-                    }, 3000);
-                }, 2000);
-            } else {
-                voiceCircle.classList.remove('active');
-                voiceCircle.innerHTML = '<i class="fas fa-microphone"></i>';
-                voiceStatus.textContent = "Click to activate voice command";
-                commandDisplay.textContent = "Voice command deactivated";
-            }
-        });
-        
-        // Generate secure key
-        generateBtn.addEventListener('click', () => {
-            // Show loading state
-            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Key...';
-            generateBtn.disabled = true;
+                voiceStatus.textContent = "Listening... Speak now";
+                startSound.play().catch(e => console.log("Audio play error:", e));
+            };
             
-            // Generate a secure key
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                commandDisplay.textContent = `Heard: ${transcript}`;
+                
+                // Process command after user stops speaking
+                if (event.results[0].isFinal) {
+                    processVoiceCommand(transcript);
+                }
+            };
+            
+            recognition.onend = () => {
+                voiceCircle.classList.remove('active');
+            };
+            
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error', event.error);
+                voiceStatus.textContent = `Error: ${event.error}`;
+                errorSound.play().catch(e => console.log("Audio play error:", e));
+                voiceCircle.classList.remove('active');
+            };
+        } else {
+            voiceStatus.textContent = "Speech recognition not supported in this browser";
+            voiceCircle.style.opacity = "0.5";
+            voiceCircle.style.cursor = "not-allowed";
+        }
+        
+        // Set up festival theme based on current date
+        function setFestivalTheme() {
+            const today = new Date();
+            const month = today.getMonth() + 1; // January is 0
+            const day = today.getDate();
+            
+            // Diwali - October/November
+            if ((month === 10 && day >= 20) || (month === 11 && day <= 15)) {
+                document.documentElement.style.setProperty('--festival-theme', 'var(--diwali)');
+                festivalIcon.innerHTML = '<i class="fas fa-diya-lamp"></i>';
+                festivalName.textContent = 'Diwali Festival';
+                festivalMessage.textContent = 'Festival of Lights - Celebrating Good Over Evil';
+                mantraBox.innerHTML = 'असतो मा सद्गमय<br>तमसो मा ज्योतिर्गमय<br>मृत्योर्मा अमृतं गमय<br>ॐ शान्तिः शान्तिः शान्तिः';
+            }
+            // Holi - March
+            else if (month === 3 && day >= 1 && day <= 31) {
+                document.documentElement.style.setProperty('--festival-theme', 'var(--holi)');
+                festivalIcon.innerHTML = '<i class="fas fa-paint-brush"></i>';
+                festivalName.textContent = 'Holi Festival';
+                festivalMessage.textContent = 'Festival of Colors - Celebrating Spring and Love';
+                mantraBox.innerHTML = 'रंगों का त्योहार, खुशियों का संगम<br>होली की हार्दिक शुभकामनाएं!';
+            }
+            // Independence Day - August 15
+            else if (month === 8 && day === 15) {
+                document.documentElement.style.setProperty('--festival-theme', 'var(--independence)');
+                festivalIcon.innerHTML = '<i class="fas fa-flag"></i>';
+                festivalName.textContent = 'Independence Day';
+                festivalMessage.textContent = 'Celebrating India\'s Freedom and Sovereignty';
+                mantraBox.innerHTML = 'स्वतंत्रता दिवस की हार्दिक शुभकामनाएं<br>जय हिन्द!';
+            }
+            // Default theme
+            else {
+                document.documentElement.style.setProperty('--festival-theme', 'var(--accent)');
+                festivalIcon.innerHTML = '<i class="fas fa-om"></i>';
+                festivalName.textContent = 'Bharat Culture';
+                festivalMessage.textContent = 'Celebrating India\'s Rich Heritage and Traditions';
+                mantraBox.innerHTML = 'वसुधैव कुटुम्बकम्<br>(The World Is One Family)';
+            }
+        }
+        
+        // Process voice commands
+        function processVoiceCommand(transcript) {
+            const command = transcript.toLowerCase();
+            let response = `Command: "${transcript}"`;
+            
+            // Process English commands
+            if (currentLang === 'en-US') {
+                if (command.includes('light') || command.includes('lamp') || command.includes('bulb')) {
+                    if (command.includes('on') || command.includes('activate')) {
+                        toggleDevice('lights', 'on');
+                        response = "Turning on living room lights";
+                    } else if (command.includes('off') || command.includes('deactivate')) {
+                        toggleDevice('lights', 'off');
+                        response = "Turning off living room lights";
+                    }
+                }
+                else if (command.includes('temperature') || command.includes('ac') || command.includes('cool')) {
+                    const tempMatch = command.match(/\d+/);
+                    if (tempMatch) {
+                        const temp = parseInt(tempMatch[0]);
+                        setTemperature(temp);
+                        response = `Setting AC temperature to ${temp}°C`;
+                    } else if (command.includes('up') || command.includes('increase')) {
+                        adjustTemperature('up');
+                        response = "Increasing temperature";
+                    } else if (command.includes('down') || command.includes('decrease')) {
+                        adjustTemperature('down');
+                        response = "Decreasing temperature";
+                    }
+                }
+                else if (command.includes('tv') || command.includes('television')) {
+                    if (command.includes('on') || command.includes('activate')) {
+                        toggleDevice('tv', 'on');
+                        response = "Turning on smart TV";
+                    } else if (command.includes('off') || command.includes('deactivate')) {
+                        toggleDevice('tv', 'off');
+                        response = "Turning off smart TV";
+                    }
+                }
+                else if (command.includes('door') || command.includes('lock')) {
+                    if (command.includes('lock')) {
+                        toggleDevice('door', 'lock');
+                        response = "Locking main door";
+                    } else if (command.includes('unlock')) {
+                        toggleDevice('door', 'unlock');
+                        response = "Unlocking main door";
+                    }
+                }
+                else if (command.includes('music') || command.includes('song') || command.includes('play')) {
+                    response = "Playing devotional music...";
+                }
+                else if (command.includes('festival') || command.includes('theme')) {
+                    setFestivalTheme();
+                    response = "Changing festival theme";
+                }
+                else if (command.includes('help')) {
+                    response = "Available commands: control lights, adjust temperature, manage TV, lock doors, play music, change theme";
+                }
+            }
+            // Process Hindi commands
+            else if (currentLang === 'hi-IN') {
+                if (command.includes('बल्ब') || command.includes('लाइट') || command.includes('रोशनी')) {
+                    if (command.includes('चालू') || command.includes('ऑन')) {
+                        toggleDevice('lights', 'on');
+                        response = "लिविंग रूम की लाइट्स चालू की जा रही हैं";
+                    } else if (command.includes('बंद') || command.includes('ऑफ')) {
+                        toggleDevice('lights', 'off');
+                        response = "लिविंग रूम की लाइट्स बंद की जा रही हैं";
+                    }
+                }
+                else if (command.includes('तापमान') || command.includes('एसी') || command.includes('ठंडा')) {
+                    const tempMatch = command.match(/\d+/);
+                    if (tempMatch) {
+                        const temp = parseInt(tempMatch[0]);
+                        setTemperature(temp);
+                        response = `एसी का तापमान ${temp}°C पर सेट किया जा रहा है`;
+                    } else if (command.includes('बढ़ाएं') || command.includes('ऊपर')) {
+                        adjustTemperature('up');
+                        response = "तापमान बढ़ाया जा रहा है";
+                    } else if (command.includes('कम') || command.includes('नीचे')) {
+                        adjustTemperature('down');
+                        response = "तापमान कम किया जा रहा है";
+                    }
+                }
+                else if (command.includes('टीवी') || command.includes('टेलीविजन')) {
+                    if (command.includes('चालू') || command.includes('ऑन')) {
+                        toggleDevice('tv', 'on');
+                        response = "स्मार्ट टीवी चालू किया जा रहा है";
+                    } else if (command.includes('बंद') || command.includes('ऑफ')) {
+                        toggleDevice('tv', 'off');
+                        response = "स्मार्ट टीवी बंद किया जा रहा है";
+                    }
+                }
+                else if (command.includes('दरवाजा') || command.includes('लॉक')) {
+                    if (command.includes('लॉक')) {
+                        toggleDevice('door', 'lock');
+                        response = "मुख्य दरवाजा लॉक किया जा रहा है";
+                    } else if (command.includes('खोलें') || command.includes('अनलॉक')) {
+                        toggleDevice('door', 'unlock');
+                        response = "मुख्य दरवाजा अनलॉक किया जा रहा है";
+                    }
+                }
+                else if (command.includes('संगीत') || command.includes('गाना') || command.includes('चलाएं')) {
+                    response = "भक्ति संगीत चलाया जा रहा है...";
+                }
+                else if (command.includes('त्योहार') || command.includes('थीम')) {
+                    setFestivalTheme();
+                    response = "त्योहार थीम बदली जा रही है";
+                }
+                else if (command.includes('मदद')) {
+                    response = "उपलब्ध आदेश: लाइट्स नियंत्रित करें, तापमान समायोजित करें, टीवी चलाएं, दरवाजा लॉक करें, संगीत चलाएं, थीम बदलें";
+                }
+            }
+            
+            commandDisplay.textContent = response;
+            successSound.play().catch(e => console.log("Audio play error:", e));
+            
+            // Show processing animation
+            voiceStatus.innerHTML = '<i class="fas fa-cog fa-spin"></i> Processing command...';
             setTimeout(() => {
-                const key = generateSecureKey();
-                keyDisplay.textContent = key;
+                voiceStatus.textContent = "Click to activate voice command";
+            }, 2000);
+        }
+        
+        // Toggle device state
+        function toggleDevice(device, action) {
+            const deviceCards = document.querySelectorAll('.device-card');
+            
+            deviceCards.forEach(card => {
+                const deviceName = card.querySelector('h3').textContent.toLowerCase();
                 
-                // Reset button
-                generateBtn.innerHTML = '<i class="fas fa-check"></i> Key Generated!';
+                if (
+                    (device === 'lights' && deviceName.includes('light')) ||
+                    (device === 'tv' && deviceName.includes('tv')) ||
+                    (device === 'door' && deviceName.includes('door'))
+                ) {
+                    const statusBar = card.querySelector('.status-bar');
+                    const statusText = card.querySelector('.device-info p');
+                    const actionBtn = card.querySelector(`.action-btn[data-action="${action}"]`);
+                    
+                    if (action === 'on' || action === 'unlock') {
+                        statusBar.style.width = '100%';
+                        statusBar.style.background = 'var(--success)';
+                        statusText.textContent = device === 'door' ? 'Status: Unlocked' : 'Status: On';
+                        
+                        // Highlight the correct button
+                        card.querySelectorAll('.action-btn').forEach(btn => {
+                            btn.style.background = '';
+                            btn.style.color = '';
+                        });
+                        if (actionBtn) {
+                            actionBtn.style.background = 'var(--accent)';
+                            actionBtn.style.color = 'var(--dark)';
+                        }
+                    } 
+                    else if (action === 'off' || action === 'lock') {
+                        statusBar.style.width = device === 'door' ? '100%' : '0%';
+                        statusBar.style.background = device === 'door' ? 'var(--warning)' : 'var(--danger)';
+                        statusText.textContent = device === 'door' ? 'Status: Locked' : 'Status: Off';
+                        
+                        // Highlight the correct button
+                        card.querySelectorAll('.action-btn').forEach(btn => {
+                            btn.style.background = '';
+                            btn.style.color = '';
+                        });
+                        if (actionBtn) {
+                            actionBtn.style.background = 'var(--accent)';
+                            actionBtn.style.color = 'var(--dark)';
+                        }
+                    }
+                }
+            });
+        }
+        
+        // Set specific temperature
+        function setTemperature(temp) {
+            const tempCard = document.querySelector('.device-card:nth-child(2)');
+            if (!tempCard) return;
+            
+            const statusBar = tempCard.querySelector('.status-bar');
+            const statusText = tempCard.querySelector('.device-info p');
+            
+            // Ensure temperature is within reasonable limits
+            const adjustedTemp = Math.max(16, Math.min(30, temp));
+            const width = ((adjustedTemp - 16) / 14) * 100;
+            
+            statusBar.style.width = `${width}%`;
+            statusText.textContent = `Current: ${adjustedTemp}°C`;
+            
+            // Visual feedback
+            statusBar.style.background = adjustedTemp < 22 ? 'var(--accent)' : 'var(--warning)';
+        }
+        
+        // Adjust temperature up/down
+        function adjustTemperature(direction) {
+            const tempCard = document.querySelector('.device-card:nth-child(2)');
+            if (!tempCard) return;
+            
+            const statusText = tempCard.querySelector('.device-info p');
+            const currentTemp = parseInt(statusText.textContent.match(/\d+/)[0]);
+            
+            const newTemp = direction === 'up' ? currentTemp + 1 : currentTemp - 1;
+            setTemperature(newTemp);
+        }
+        
+        // Generate secure key using Web Crypto API
+        async function generateSecureKey() {
+            try {
+                const array = new Uint8Array(32);
+                crypto.getRandomValues(array);
                 
-                // Revert after delay
+                // Convert to hex string
+                return 'bharat_ai_' + Array.from(array)
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+            } catch (e) {
+                console.error("Crypto API not supported", e);
+                // Fallback to less secure method
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+                let key = '';
+                for (let i = 0; i < 64; i++) {
+                    key += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return 'bharat_ai_' + key;
+            }
+        }
+        
+        // Initialize the application
+        function initApp() {
+            // Set festival theme
+            setFestivalTheme();
+            
+            // Setup voice recognition
+            if (recognition) {
+                voiceCircle.addEventListener('click', () => {
+                    if (!recognition) return;
+                    
+                    if (!recognition.recognizing) {
+                        recognition.start();
+                    }
+                });
+            }
+            
+            // Language selector
+            langEnglish.addEventListener('click', () => {
+                if (recognition) {
+                    recognition.lang = 'en-US';
+                    currentLang = 'en-US';
+                    langEnglish.classList.add('active');
+                    langHindi.classList.remove('active');
+                    commandDisplay.textContent = "Say 'Hey Bharat' followed by your command";
+                }
+            });
+            
+            langHindi.addEventListener('click', () => {
+                if (recognition) {
+                    recognition.lang = 'hi-IN';
+                    currentLang = 'hi-IN';
+                    langHindi.classList.add('active');
+                    langEnglish.classList.remove('active');
+                    commandDisplay.textContent = "बोलें 'हे भारत' और फिर अपना आदेश दें";
+                }
+            });
+            
+            // Generate key button
+            generateBtn.addEventListener('click', async () => {
+                generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+                generateBtn.disabled = true;
+                
+                try {
+                    const key = await generateSecureKey();
+                    keyDisplay.textContent = key;
+                    
+                    generateBtn.innerHTML = '<i class="fas fa-check"></i> Key Generated!';
+                    successSound.play().catch(e => console.log("Audio play error:", e));
+                } catch (e) {
+                    keyDisplay.textContent = "Error generating key";
+                    generateBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Try Again';
+                    errorSound.play().catch(e => console.log("Audio play error:", e));
+                }
+                
                 setTimeout(() => {
                     generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate Secure Key';
                     generateBtn.disabled = false;
                 }, 2000);
-            }, 1500);
-        });
-        
-        // Generate a random secure key
-        function generateSecureKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-            const keyLength = 64;
-            let key = '';
+            });
             
-            for (let i = 0; i < keyLength; i++) {
-                key += chars.charAt(Math.floor(Math.random() * chars.length));
-                // Add dashes for readability
-                if ((i + 1) % 16 === 0 && i !== keyLength - 1) {
-                    key += '-';
-                }
-            }
+            // Device action buttons
+            document.querySelectorAll('.action-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    const device = button.dataset.device;
+                    const action = button.dataset.action;
+                    
+                    if (device && action) {
+                        toggleDevice(device, action);
+                    }
+                });
+            });
             
-            return `bharat_ai_${key}`;
+            // Command chips
+            document.querySelectorAll('.command-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    commandDisplay.textContent = `Command: "${chip.textContent}"`;
+                    setTimeout(() => {
+                        processVoiceCommand(chip.textContent.replace(/["]/g, ''));
+                    }, 500);
+                });
+            });
         }
         
-        // Initialize device actions
-        document.querySelectorAll('.action-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                const deviceCard = button.closest('.device-card');
-                const deviceName = deviceCard.querySelector('h3').textContent;
-                
-                if (button.textContent === 'On' || button.textContent === '+') {
-                    button.style.background = 'var(--accent)';
-                    button.style.color = 'var(--dark)';
-                    commandDisplay.textContent = `${deviceName} activated`;
-                } else if (button.textContent === 'Off' || button.textContent === '-') {
-                    button.style.background = '';
-                    button.style.color = '';
-                    commandDisplay.textContent = `${deviceName} deactivated`;
-                }
-                
-                // Special handling for temperature
-                if (deviceName === 'AC Temperature') {
-                    const tempElement = deviceCard.querySelector('.device-info p');
-                    let currentTemp = parseInt(tempElement.textContent.split(': ')[1]);
-                    
-                    if (button.textContent === '+') {
-                        currentTemp += 1;
-                    } else {
-                        currentTemp -= 1;
-                    }
-                    
-                    tempElement.textContent = `Current: ${currentTemp}°C`;
-                    const width = Math.max(0, Math.min(100, (currentTemp - 16) * 10));
-                    deviceCard.querySelector('.status-bar').style.width = `${width}%`;
-                }
-            });
-        });
-        
-        // Initialize command chips
-        document.querySelectorAll('.command-chip').forEach(chip => {
-            chip.addEventListener('click', () => {
-                commandDisplay.textContent = `Command: "${chip.textContent}"`;
-                
-                // Simulate processing
-                setTimeout(() => {
-                    commandDisplay.innerHTML = `<span style="color: var(--success);">Success:</span> ${chip.textContent} executed`;
-                }, 1000);
-            });
-        });
+        // Start the application when loaded
+        window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
