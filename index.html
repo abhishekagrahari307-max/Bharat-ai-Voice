@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat AI - Voice Command System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #4a00e0;
+            --secondary: #8e2de2;
+            --accent: #00c6ff;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --diwali: #ff5722;
+            --holi: #9c27b0;
+            --diwali-light: #fff3e0;
+            --holi-light: #f3e5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a237e, #311b92);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .security-badge {
+            background: rgba(0,198,255,0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--accent);
+        }
+        
+        /* Main Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 25px;
+        }
+        
+        /* Voice Command Section */
+        .voice-command-section {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 22px;
+            color: var(--accent);
+        }
+        
+        .voice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 30px 0;
+        }
+        
+        .voice-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(142, 45, 226, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        .voice-circle.active {
+            animation: pulse-active 1s infinite;
+            box-shadow: 0 0 40px rgba(0, 198, 255, 0.8);
+        }
+        
+        .voice-circle i {
+            font-size: 60px;
+        }
+        
+        .voice-status {
+            font-size: 20px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .command-display {
+            background: rgba(0,0,0,0.3);
+            width: 100%;
+            min-height: 80px;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .command-examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .command-chip {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        
+        .command-chip:hover {
+            background: rgba(0,198,255,0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* Devices Section */
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .device-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .device-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-color: rgba(0,198,255,0.3);
+        }
+        
+        .device-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .device-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(0,198,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent);
+        }
+        
+        .device-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .device-info p {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .device-status {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            height: 100%;
+            border-radius: 10px;
+            background: var(--success);
+        }
+        
+        .device-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        
+        .action-btn {
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        /* Cultural Sidebar */
+        .cultural-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .cultural-card {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .festival-display {
+            text-align: center;
+            padding: 20px 0;
+        }
+        
+        .festival-icon {
+            font-size: 60px;
+            color: var(--diwali);
+            margin-bottom: 15px;
+        }
+        
+        .festival-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--diwali);
+        }
+        
+        .festival-message {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .mantra-box {
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 18px;
+            text-align: center;
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            line-height: 1.6;
+            border: 1px solid rgba(255,255,255,0.1);
+            margin: 15px 0;
+        }
+        
+        /* Key Generator */
+        .key-generator {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .key-display {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            word-break: break-all;
+            font-family: monospace;
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 100px;
+            overflow-y: auto;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(142, 45, 226, 0.4);
+        }
+        
+        /* Security Section */
+        .security-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .security-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .security-card i {
+            font-size: 24px;
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        .signature {
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 30px rgba(142, 45, 226, 0.5); }
+            50% { transform: scale(1.02); box-shadow: 0 0 40px rgba(142, 45, 226, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 30px rgba(142, 45, 226, 0.5); }
+        }
+        
+        @keyframes pulse-active {
+            0% { box-shadow: 0 0 30px rgba(0, 198, 255, 0.6); }
+            50% { box-shadow: 0 0 50px rgba(0, 198, 255, 1); }
+            100% { box-shadow: 0 0 30px rgba(0, 198, 255, 0.6); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .devices-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-om"></i>
+                </div>
+                <div class="logo-text">Bharat AI</div>
+            </div>
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure TPM Encryption Active</span>
+            </div>
+        </header>
+        
+        <div class="main-grid">
+            <div class="main-content">
+                <div class="voice-command-section">
+                    <div class="section-title">
+                        <i class="fas fa-microphone-alt"></i>
+                        <h2>Voice Command System</h2>
+                    </div>
+                    
+                    <div class="voice-container">
+                        <div class="voice-circle" id="voiceCircle">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                        <div class="voice-status" id="voiceStatus">Click to activate voice command</div>
+                        
+                        <div class="command-display" id="commandDisplay">
+                            Say "Hey Bharat" followed by your command
+                        </div>
+                        
+                        <div class="command-examples">
+                            <div class="command-chip">"Turn on the lights"</div>
+                            <div class="command-chip">"Set temperature to 22°C"</div>
+                            <div class="command-chip">"Play devotional music"</div>
+                            <div class="command-chip">"Lock all doors"</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="voice-command-section">
+                    <div class="section-title">
+                        <i class="fas fa-plug"></i>
+                        <h2>Connected Devices</h2>
+                    </div>
+                    
+                    <div class="devices-grid">
+                        <div class="device-card">
+                            <div class="device-header">
+                                <div class="device-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>Living Room Lights</h3>
+                                    <p>Philips Hue</p>
+                                </div>
+                            </div>
+                            <div class="device-status">
+                                <div class="status-bar" style="width: 100%;"></div>
+                            </div>
+                            <div class="device-actions">
+                                <button class="action-btn">On</button>
+                                <button class="action-btn">Off</button>
+                            </div>
+                        </div>
+                        
+                        <div class="device-card">
+                            <div class="device-header">
+                                <div class="device-icon">
+                                    <i class="fas fa-thermometer-half"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>AC Temperature</h3>
+                                    <p>Current: 24°C</p>
+                                </div>
+                            </div>
+                            <div class="device-status">
+                                <div class="status-bar" style="width: 70%;"></div>
+                            </div>
+                            <div class="device-actions">
+                                <button class="action-btn">-</button>
+                                <button class="action-btn">+</button>
+                            </div>
+                        </div>
+                        
+                        <div class="device-card">
+                            <div class="device-header">
+                                <div class="device-icon">
+                                    <i class="fas fa-tv"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>Smart TV</h3>
+                                    <p>Sony Bravia</p>
+                                </div>
+                            </div>
+                            <div class="device-status">
+                                <div class="status-bar" style="width: 40%;"></div>
+                            </div>
+                            <div class="device-actions">
+                                <button class="action-btn">On</button>
+                                <button class="action-btn">Off</button>
+                            </div>
+                        </div>
+                        
+                        <div class="device-card">
+                            <div class="device-header">
+                                <div class="device-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="device-info">
+                                    <h3>Main Door</h3>
+                                    <p>Yale Smart Lock</p>
+                                </div>
+                            </div>
+                            <div class="device-status">
+                                <div class="status-bar" style="width: 100%;"></div>
+                            </div>
+                            <div class="device-actions">
+                                <button class="action-btn">Lock</button>
+                                <button class="action-btn">Unlock</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cultural-sidebar">
+                <div class="cultural-card">
+                    <div class="section-title">
+                        <i class="fas fa-festival"></i>
+                        <h2>Cultural Elements</h2>
+                    </div>
+                    
+                    <div class="festival-display">
+                        <div class="festival-icon">
+                            <i class="fas fa-diya-lamp"></i>
+                        </div>
+                        <div class="festival-name">Diwali Festival</div>
+                        <div class="festival-message">Festival of Lights - Celebrating Good Over Evil</div>
+                        
+                        <div class="mantra-box">
+                            असतो मा सद्गमय<br>
+                            तमसो मा ज्योतिर्गमय<br>
+                            मृत्योर्मा अमृतं गमय<br>
+                            ॐ शान्तिः शान्तिः शान्तिः
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="cultural-card">
+                    <div class="section-title">
+                        <i class="fas fa-key"></i>
+                        <h2>Security Key Generator</h2>
+                    </div>
+                    
+                    <div class="key-generator">
+                        <div class="key-display" id="keyDisplay">
+                            Your secure key will appear here
+                        </div>
+                        <button class="generate-btn" id="generateBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            Generate Secure Key
+                        </button>
+                    </div>
+                    
+                    <div class="security-grid">
+                        <div class="security-card">
+                            <i class="fas fa-microchip"></i>
+                            <h4>TPM Encryption</h4>
+                            <p>Hardware-level Security</p>
+                        </div>
+                        <div class="security-card">
+                            <i class="fas fa-fingerprint"></i>
+                            <h4>Biometric Auth</h4>
+                            <p>Voice & Yoga Recognition</p>
+                        </div>
+                        <div class="security-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Zero Trust</h4>
+                            <p>Continuous Verification</p>
+                        </div>
+                        <div class="security-card">
+                            <i class="fas fa-file-shield"></i>
+                            <h4>Secure Logging</h4>
+                            <p>Tamper-proof Records</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Bharat AI Voice Command System</p>
+            <p class="signature">Designed and Developed by Abhishek Agrahari</p>
+            <p>© 2025 BharatOS Technologies. All Rights Reserved.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const voiceCircle = document.getElementById('voiceCircle');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const commandDisplay = document.getElementById('commandDisplay');
+        const generateBtn = document.getElementById('generateBtn');
+        const keyDisplay = document.getElementById('keyDisplay');
+        
+        // Voice command simulation
+        let isListening = false;
+        const commands = [
+            "Turn on living room lights",
+            "Set AC temperature to 22 degrees",
+            "Play devotional music in the living room",
+            "Lock all doors and windows",
+            "Show me security cameras",
+            "Activate festival lighting mode",
+            "Read today's mantra"
+        ];
+        
+        // Toggle voice listening state
+        voiceCircle.addEventListener('click', () => {
+            isListening = !isListening;
+            
+            if (isListening) {
+                voiceCircle.classList.add('active');
+                voiceCircle.innerHTML = '<i class="fas fa-microphone"></i>';
+                voiceStatus.textContent = "Listening... Say your command";
+                commandDisplay.textContent = "Listening for 'Hey Bharat'...";
+                
+                // Simulate voice command after delay
+                setTimeout(() => {
+                    const randomCommand = commands[Math.floor(Math.random() * commands.length)];
+                    commandDisplay.innerHTML = `<span style="color: var(--accent);">Command:</span> ${randomCommand}`;
+                    voiceStatus.textContent = "Command processed successfully";
+                    
+                    // Simulate action based on command
+                    if (randomCommand.includes('lights')) {
+                        document.querySelector('.device-card:first-child .action-btn:first-child').style.background = 'var(--accent)';
+                        document.querySelector('.device-card:first-child .action-btn:first-child').style.color = 'var(--dark)';
+                    }
+                    
+                    if (randomCommand.includes('temperature')) {
+                        document.querySelector('.device-card:nth-child(2) .status-bar').style.width = '60%';
+                        document.querySelector('.device-card:nth-child(2) .device-info p').textContent = 'Current: 22°C';
+                    }
+                    
+                    // Stop listening after processing
+                    setTimeout(() => {
+                        isListening = false;
+                        voiceCircle.classList.remove('active');
+                        voiceStatus.textContent = "Click to activate voice command";
+                    }, 3000);
+                }, 2000);
+            } else {
+                voiceCircle.classList.remove('active');
+                voiceCircle.innerHTML = '<i class="fas fa-microphone"></i>';
+                voiceStatus.textContent = "Click to activate voice command";
+                commandDisplay.textContent = "Voice command deactivated";
+            }
+        });
+        
+        // Generate secure key
+        generateBtn.addEventListener('click', () => {
+            // Show loading state
+            generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating Key...';
+            generateBtn.disabled = true;
+            
+            // Generate a secure key
+            setTimeout(() => {
+                const key = generateSecureKey();
+                keyDisplay.textContent = key;
+                
+                // Reset button
+                generateBtn.innerHTML = '<i class="fas fa-check"></i> Key Generated!';
+                
+                // Revert after delay
+                setTimeout(() => {
+                    generateBtn.innerHTML = '<i class="fas fa-sync-alt"></i> Generate Secure Key';
+                    generateBtn.disabled = false;
+                }, 2000);
+            }, 1500);
+        });
+        
+        // Generate a random secure key
+        function generateSecureKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            const keyLength = 64;
+            let key = '';
+            
+            for (let i = 0; i < keyLength; i++) {
+                key += chars.charAt(Math.floor(Math.random() * chars.length));
+                // Add dashes for readability
+                if ((i + 1) % 16 === 0 && i !== keyLength - 1) {
+                    key += '-';
+                }
+            }
+            
+            return `bharat_ai_${key}`;
+        }
+        
+        // Initialize device actions
+        document.querySelectorAll('.action-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const deviceCard = button.closest('.device-card');
+                const deviceName = deviceCard.querySelector('h3').textContent;
+                
+                if (button.textContent === 'On' || button.textContent === '+') {
+                    button.style.background = 'var(--accent)';
+                    button.style.color = 'var(--dark)';
+                    commandDisplay.textContent = `${deviceName} activated`;
+                } else if (button.textContent === 'Off' || button.textContent === '-') {
+                    button.style.background = '';
+                    button.style.color = '';
+                    commandDisplay.textContent = `${deviceName} deactivated`;
+                }
+                
+                // Special handling for temperature
+                if (deviceName === 'AC Temperature') {
+                    const tempElement = deviceCard.querySelector('.device-info p');
+                    let currentTemp = parseInt(tempElement.textContent.split(': ')[1]);
+                    
+                    if (button.textContent === '+') {
+                        currentTemp += 1;
+                    } else {
+                        currentTemp -= 1;
+                    }
+                    
+                    tempElement.textContent = `Current: ${currentTemp}°C`;
+                    const width = Math.max(0, Math.min(100, (currentTemp - 16) * 10));
+                    deviceCard.querySelector('.status-bar').style.width = `${width}%`;
+                }
+            });
+        });
+        
+        // Initialize command chips
+        document.querySelectorAll('.command-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                commandDisplay.textContent = `Command: "${chip.textContent}"`;
+                
+                // Simulate processing
+                setTimeout(() => {
+                    commandDisplay.innerHTML = `<span style="color: var(--success);">Success:</span> ${chip.textContent} executed`;
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>
