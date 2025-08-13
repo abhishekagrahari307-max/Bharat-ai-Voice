@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bharat AI - Enhanced Voice Command System</title>
+    <title>Bharat AI - Voice Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -21,6 +21,8 @@
             --independence: #FF9933;
             --festival-theme: var(--diwali);
             --festival-light: var(--diwali-light);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
         }
         
         * {
@@ -36,12 +38,12 @@
             min-height: 100vh;
             overflow-x: hidden;
             transition: background 0.5s;
+            padding: 20px;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
         
         /* Header Styles */
@@ -49,71 +51,103 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
         }
         
         .logo-icon {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
         }
         
         .logo-text {
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 700;
             background: linear-gradient(to right, #fff, var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         
-        .security-badge {
-            background: rgba(0,198,255,0.15);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid var(--accent);
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
         
         /* Main Grid Layout */
         .main-grid {
             display: grid;
             grid-template-columns: 1fr 350px;
-            gap: 25px;
+            gap: 20px;
+        }
+        
+        /* Search Box */
+        .search-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+        }
+        
+        .search-container {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .search-box {
+            flex: 1;
+            padding: 12px 15px;
+            border-radius: 30px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            font-size: 16px;
+        }
+        
+        .search-btn {
+            padding: 12px 20px;
+            border-radius: 30px;
+            background: var(--accent);
+            border: none;
+            color: var(--dark);
+            cursor: pointer;
+            font-weight: 500;
         }
         
         /* Voice Command Section */
         .voice-command-section {
-            background: rgba(255,255,255,0.05);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
         }
         
         .section-title {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 20px;
-            font-size: 22px;
+            margin-bottom: 15px;
+            font-size: 20px;
             color: var(--accent);
         }
         
@@ -121,36 +155,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
-            padding: 30px 0;
+            gap: 15px;
+            padding: 20px 0;
         }
         
         .voice-circle {
-            width: 180px;
-            height: 180px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 0 30px rgba(142, 45, 226, 0.5);
+            box-shadow: 0 0 20px rgba(142, 45, 226, 0.5);
             animation: pulse 2s infinite;
+            position: relative;
         }
         
         .voice-circle.active {
             animation: pulse-active 1s infinite;
-            box-shadow: 0 0 40px rgba(0, 198, 255, 0.8);
+            box-shadow: 0 0 30px rgba(0, 198, 255, 0.8);
         }
         
         .voice-circle i {
-            font-size: 60px;
+            font-size: 50px;
         }
         
         .voice-status {
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
             margin-top: 10px;
             min-height: 30px;
@@ -159,34 +193,34 @@
         .command-display {
             background: rgba(0,0,0,0.3);
             width: 100%;
-            min-height: 80px;
+            min-height: 70px;
             border-radius: 15px;
-            padding: 15px;
-            margin-top: 15px;
-            font-size: 18px;
+            padding: 12px;
+            margin-top: 10px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--card-border);
         }
         
         .command-examples {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 15px;
         }
         
         .command-chip {
             background: rgba(255,255,255,0.1);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 14px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 13px;
             cursor: pointer;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid var(--card-border);
         }
         
         .command-chip:hover {
@@ -195,62 +229,69 @@
         }
         
         /* Devices Section */
+        .devices-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 1px solid var(--card-border);
+        }
+        
         .devices-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .device-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
+            border: 1px solid var(--card-border);
         }
         
         .device-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             border-color: rgba(0,198,255,0.3);
         }
         
         .device-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
         
         .device-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             background: rgba(0,198,255,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 20px;
             color: var(--accent);
         }
         
         .device-info h3 {
-            font-size: 18px;
-            margin-bottom: 5px;
+            font-size: 16px;
+            margin-bottom: 3px;
         }
         
         .device-info p {
-            font-size: 14px;
-            opacity: 0.7;
+            font-size: 13px;
+            opacity: 0.8;
         }
         
         .device-status {
-            height: 8px;
+            height: 6px;
             background: rgba(255,255,255,0.1);
             border-radius: 10px;
             overflow: hidden;
@@ -266,17 +307,18 @@
         .device-actions {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         
         .action-btn {
-            padding: 8px 15px;
-            border-radius: 30px;
+            padding: 6px 12px;
+            border-radius: 20px;
             background: rgba(255,255,255,0.1);
             border: none;
             color: white;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 13px;
         }
         
         .action-btn:hover {
@@ -288,85 +330,84 @@
         .cultural-sidebar {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
         }
         
         .cultural-card {
-            background: rgba(255,255,255,0.05);
+            background: var(--card-bg);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border: 1px solid var(--card-border);
         }
         
         .festival-display {
             text-align: center;
-            padding: 20px 0;
+            padding: 15px 0;
         }
         
         .festival-icon {
-            font-size: 60px;
+            font-size: 50px;
             color: var(--festival-theme);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .festival-name {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 20px;
+            margin-bottom: 8px;
             color: var(--festival-theme);
         }
         
         .festival-message {
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0.9;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         
         .mantra-box {
             background: rgba(0,0,0,0.3);
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 18px;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 16px;
             text-align: center;
             font-family: 'Noto Sans Devanagari', sans-serif;
             line-height: 1.6;
-            border: 1px solid rgba(255,255,255,0.1);
-            margin: 15px 0;
+            border: 1px solid var(--card-border);
+            margin: 10px 0;
         }
         
         /* Key Generator */
         .key-generator {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
         
         .key-display {
             background: rgba(0,0,0,0.3);
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
-            font-size: 14px;
+            font-size: 13px;
             word-break: break-all;
             font-family: monospace;
-            border: 1px solid rgba(255,255,255,0.1);
-            height: 100px;
+            border: 1px solid var(--card-border);
+            height: 90px;
             overflow-y: auto;
         }
         
         .generate-btn {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             color: white;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .generate-btn:hover {
@@ -378,43 +419,53 @@
         .security-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 12px;
         }
         
         .security-card {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 15px;
+            background: rgba(255,255,255,0.07);
+            border-radius: 12px;
+            padding: 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
-            gap: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
+            gap: 8px;
+            border: 1px solid var(--card-border);
         }
         
         .security-card i {
-            font-size: 24px;
+            font-size: 20px;
             color: var(--accent);
+        }
+        
+        .security-card h4 {
+            font-size: 14px;
+        }
+        
+        .security-card p {
+            font-size: 12px;
+            opacity: 0.8;
         }
         
         /* Language Selector */
         .language-selector {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 12px;
         }
         
         .lang-btn {
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 8px 15px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s;
+            font-size: 14px;
         }
         
         .lang-btn.active {
@@ -423,34 +474,66 @@
             border-color: var(--accent);
         }
         
+        /* Help Section */
+        .help-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--card-border);
+        }
+        
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .help-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid var(--card-border);
+        }
+        
+        .help-card i {
+            font-size: 24px;
+            color: var(--accent);
+        }
+        
         /* Footer */
         footer {
             text-align: center;
-            padding: 30px 0;
-            margin-top: 40px;
+            padding: 25px 0;
+            margin-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
             font-size: 14px;
-            opacity: 0.7;
+            opacity: 0.8;
         }
         
         .signature {
             font-weight: 600;
             color: var(--accent);
-            margin-top: 10px;
-            font-size: 16px;
+            margin-top: 8px;
+            font-size: 15px;
         }
         
         /* Animations */
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 30px rgba(142, 45, 226, 0.5); }
-            50% { transform: scale(1.02); box-shadow: 0 0 40px rgba(142, 45, 226, 0.7); }
-            100% { transform: scale(1); box-shadow: 0 0 30px rgba(142, 45, 226, 0.5); }
+            0% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
+            50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(142, 45, 226, 0.7); }
+            100% { transform: scale(1); box-shadow: 0 0 20px rgba(142, 45, 226, 0.5); }
         }
         
         @keyframes pulse-active {
-            0% { box-shadow: 0 0 30px rgba(0, 198, 255, 0.6); }
-            50% { box-shadow: 0 0 50px rgba(0, 198, 255, 1); }
-            100% { box-shadow: 0 0 30px rgba(0, 198, 255, 0.6); }
+            0% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
+            50% { box-shadow: 0 0 40px rgba(0, 198, 255, 1); }
+            100% { box-shadow: 0 0 20px rgba(0, 198, 255, 0.6); }
         }
         
         /* Responsive Design */
@@ -458,30 +541,56 @@
             .main-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .cultural-sidebar {
+                grid-row: 1;
+            }
         }
         
         @media (max-width: 600px) {
+            header {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .voice-circle {
+                width: 120px;
+                height: 120px;
+            }
+            
             .devices-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
             
             .security-grid {
                 grid-template-columns: 1fr;
             }
             
-            header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .logo-text {
+                font-size: 20px;
             }
             
-            .logo {
-                justify-content: center;
+            .section-title {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .devices-grid {
+                grid-template-columns: 1fr;
             }
             
             .voice-circle {
-                width: 140px;
-                height: 140px;
+                width: 100px;
+                height: 100px;
+            }
+            
+            .voice-circle i {
+                font-size: 40px;
             }
         }
     </style>
@@ -495,48 +604,63 @@
                 </div>
                 <div class="logo-text">Bharat AI</div>
             </div>
-            <div class="security-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>Secure TPM Encryption Active</span>
-            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </header>
         
         <div class="main-grid">
             <div class="main-content">
+                <!-- Search Box -->
+                <div class="search-section">
+                    <div class="section-title">
+                        <i class="fas fa-search"></i>
+                        <h2>Ask Bharat AI</h2>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" class="search-box" id="searchBox" placeholder="Type your question or command...">
+                        <button class="search-btn" id="searchBtn">
+                            <i class="fas fa-paper-plane"></i> Search
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Voice Command Section -->
                 <div class="voice-command-section">
                     <div class="section-title">
                         <i class="fas fa-microphone-alt"></i>
-                        <h2>Voice Command System</h2>
+                        <h2>Voice Assistant</h2>
                     </div>
                     
                     <div class="voice-container">
                         <div class="voice-circle" id="voiceCircle" role="button" aria-label="Activate voice commands">
                             <i class="fas fa-microphone"></i>
                         </div>
-                        <div class="voice-status" id="voiceStatus">Click to activate voice command</div>
+                        <div class="voice-status" id="voiceStatus">Tap and speak to activate</div>
                         
                         <div class="command-display" id="commandDisplay">
-                            Say "Hey Bharat" followed by your command
-                        </div>
-                        
-                        <div class="command-examples">
-                            <div class="command-chip">"Turn on the lights"</div>
-                            <div class="command-chip">"Set temperature to 22°C"</div>
-                            <div class="command-chip">"Play devotional music"</div>
-                            <div class="command-chip">"Lock all doors"</div>
+                            Try: "What's the weather today?" or "Turn on the lights"
                         </div>
                         
                         <div class="language-selector">
                             <button class="lang-btn active" id="langEnglish">English</button>
                             <button class="lang-btn" id="langHindi">हिंदी</button>
                         </div>
+                        
+                        <div class="command-examples">
+                            <div class="command-chip">"What's the time?"</div>
+                            <div class="command-chip">"Set a reminder"</div>
+                            <div class="command-chip">"Play music"</div>
+                            <div class="command-chip">"Find solutions"</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="voice-command-section">
+                <!-- Devices Section -->
+                <div class="devices-section">
                     <div class="section-title">
                         <i class="fas fa-plug"></i>
-                        <h2>Connected Devices</h2>
+                        <h2>Smart Home Control</h2>
                     </div>
                     
                     <div class="devices-grid">
@@ -546,7 +670,7 @@
                                     <i class="fas fa-lightbulb"></i>
                                 </div>
                                 <div class="device-info">
-                                    <h3>Living Room Lights</h3>
+                                    <h3>Living Room</h3>
                                     <p>Status: Off</p>
                                 </div>
                             </div>
@@ -617,6 +741,52 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Help Section -->
+                <div class="help-section">
+                    <div class="section-title">
+                        <i class="fas fa-question-circle"></i>
+                        <h2>How Can I Help You?</h2>
+                    </div>
+                    
+                    <div class="help-grid">
+                        <div class="help-card">
+                            <i class="fas fa-weather"></i>
+                            <h3>Weather Info</h3>
+                            <p>Get current weather and forecasts</p>
+                        </div>
+                        
+                        <div class="help-card">
+                            <i class="fas fa-calendar-check"></i>
+                            <h3>Set Reminders</h3>
+                            <p>Schedule tasks and appointments</p>
+                        </div>
+                        
+                        <div class="help-card">
+                            <i class="fas fa-music"></i>
+                            <h3>Play Music</h3>
+                            <p>Stream your favorite songs</p>
+                        </div>
+                        
+                        <div class="help-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Smart Home</h3>
+                            <p>Control your connected devices</p>
+                        </div>
+                        
+                        <div class="help-card">
+                            <i class="fas fa-language"></i>
+                            <h3>Translation</h3>
+                            <p>Translate between English and Hindi</p>
+                        </div>
+                        
+                        <div class="help-card">
+                            <i class="fas fa-search"></i>
+                            <h3>Find Solutions</h3>
+                            <p>Get answers to your questions</p>
+                        </div>
+                    </div>
+                </div>
             </div>
             
             <div class="cultural-sidebar">
@@ -645,7 +815,7 @@
                 <div class="cultural-card">
                     <div class="section-title">
                         <i class="fas fa-key"></i>
-                        <h2>Security Key Generator</h2>
+                        <h2>Security Center</h2>
                     </div>
                     
                     <div class="key-generator">
@@ -667,7 +837,7 @@
                         <div class="security-card">
                             <i class="fas fa-fingerprint"></i>
                             <h4>Biometric Auth</h4>
-                            <p>Voice & Yoga Recognition</p>
+                            <p>Voice Recognition</p>
                         </div>
                         <div class="security-card">
                             <i class="fas fa-shield-alt"></i>
@@ -685,16 +855,11 @@
         </div>
         
         <footer>
-            <p>Bharat AI Voice Command System</p>
+            <p>Bharat AI Voice Assistant System</p>
             <p class="signature">Designed and Developed by Abhishek Agrahari</p>
             <p>© 2025 BharatOS Technologies. All Rights Reserved.</p>
         </footer>
     </div>
-    
-    <!-- Audio elements for feedback -->
-    <audio id="startSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-show-intro-321.mp3"></audio>
-    <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3"></audio>
-    <audio id="errorSound" src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3"></audio>
     
     <script>
         // DOM Elements
@@ -709,11 +874,15 @@
         const festivalName = document.getElementById('festivalName');
         const festivalMessage = document.getElementById('festivalMessage');
         const mantraBox = document.getElementById('mantraBox');
+        const searchBox = document.getElementById('searchBox');
+        const searchBtn = document.getElementById('searchBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         
         // Speech recognition variables
         let recognition;
         let isRecognizing = false;
         let currentLang = 'en-US';
+        let synth = window.speechSynthesis;
         
         // Set up festival theme based on current date
         function setFestivalTheme() {
@@ -769,11 +938,7 @@
                     isRecognizing = true;
                     voiceCircle.classList.add('active');
                     voiceStatus.textContent = "Listening... Speak now";
-                    try {
-                        document.getElementById('startSound').play();
-                    } catch (e) {
-                        console.log("Audio play error:", e);
-                    }
+                    speakText("How can I help you?");
                 };
                 
                 recognition.onresult = (event) => {
@@ -807,17 +972,12 @@
                 recognition.onend = () => {
                     isRecognizing = false;
                     voiceCircle.classList.remove('active');
-                    voiceStatus.textContent = "Click to activate voice command";
+                    voiceStatus.textContent = "Tap and speak to activate";
                 };
                 
                 recognition.onerror = (event) => {
                     console.error('Speech recognition error', event.error);
                     voiceStatus.textContent = `Error: ${event.error}`;
-                    try {
-                        document.getElementById('errorSound').play();
-                    } catch (e) {
-                        console.log("Audio play error:", e);
-                    }
                     isRecognizing = false;
                     voiceCircle.classList.remove('active');
                 };
@@ -828,6 +988,19 @@
             }
         }
         
+        // Text-to-speech function
+        function speakText(text) {
+            if (synth.speaking) {
+                synth.cancel();
+            }
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = currentLang;
+            utterance.pitch = 1;
+            utterance.rate = 1;
+            synth.speak(utterance);
+        }
+        
         // Process voice commands
         function processVoiceCommand(transcript) {
             const command = transcript.toLowerCase();
@@ -835,13 +1008,19 @@
             
             // Process English commands
             if (currentLang === 'en-US') {
-                if (command.includes('light') || command.includes('lamp') || command.includes('bulb')) {
+                if (command.includes('hello') || command.includes('hi')) {
+                    response = "Hello! How can I assist you today?";
+                    speakText("Hello! How can I assist you today?");
+                }
+                else if (command.includes('light') || command.includes('lamp') || command.includes('bulb')) {
                     if (command.includes('on') || command.includes('activate')) {
                         toggleDevice('lights', 'on');
                         response = "Turning on living room lights";
+                        speakText("Lights are now on");
                     } else if (command.includes('off') || command.includes('deactivate')) {
                         toggleDevice('lights', 'off');
                         response = "Turning off living room lights";
+                        speakText("Lights are now off");
                     }
                 }
                 else if (command.includes('temperature') || command.includes('ac') || command.includes('cool')) {
@@ -850,109 +1029,91 @@
                         const temp = parseInt(tempMatch[0]);
                         setTemperature(temp);
                         response = `Setting AC temperature to ${temp}°C`;
+                        speakText(`Temperature set to ${temp} degrees`);
                     } else if (command.includes('up') || command.includes('increase')) {
                         adjustTemperature('up');
                         response = "Increasing temperature";
+                        speakText("Temperature increased");
                     } else if (command.includes('down') || command.includes('decrease')) {
                         adjustTemperature('down');
                         response = "Decreasing temperature";
+                        speakText("Temperature decreased");
                     }
                 }
-                else if (command.includes('tv') || command.includes('television')) {
-                    if (command.includes('on') || command.includes('activate')) {
-                        toggleDevice('tv', 'on');
-                        response = "Turning on smart TV";
-                    } else if (command.includes('off') || command.includes('deactivate')) {
-                        toggleDevice('tv', 'off');
-                        response = "Turning off smart TV";
-                    }
-                }
-                else if (command.includes('door') || command.includes('lock')) {
-                    if (command.includes('lock')) {
-                        toggleDevice('door', 'lock');
-                        response = "Locking main door";
-                    } else if (command.includes('unlock')) {
-                        toggleDevice('door', 'unlock');
-                        response = "Unlocking main door";
-                    }
-                }
-                else if (command.includes('music') || command.includes('song') || command.includes('play')) {
-                    response = "Playing devotional music...";
-                }
-                else if (command.includes('festival') || command.includes('theme')) {
-                    setFestivalTheme();
-                    response = "Changing festival theme";
+                else if (command.includes('time')) {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString();
+                    response = `Current time is ${timeString}`;
+                    speakText(`The time is ${timeString}`);
                 }
                 else if (command.includes('help')) {
-                    response = "Available commands: control lights, adjust temperature, manage TV, lock doors, play music, change theme";
+                    response = "I can help with weather, reminders, device control, translations, and more!";
+                    speakText("I can help with weather, reminders, device control, translations, and more!");
+                }
+                else if (command.includes('problem') || command.includes('issue') || command.includes('solution')) {
+                    response = "I'd be happy to help. Could you describe your problem in more detail?";
+                    speakText("I'd be happy to help. Could you describe your problem in more detail?");
+                }
+                else {
+                    response = "I'm processing your request. Please wait...";
+                    speakText("I'm processing your request. Please wait...");
+                    
+                    // Simulate finding solutions
+                    setTimeout(() => {
+                        commandDisplay.textContent = "I found several solutions for you. How can I assist further?";
+                        speakText("I found several solutions for you. How can I assist further?");
+                    }, 2000);
                 }
             }
             // Process Hindi commands
             else if (currentLang === 'hi-IN') {
-                if (command.includes('बल्ब') || command.includes('लाइट') || command.includes('रोशनी')) {
+                if (command.includes('नमस्ते') || command.includes('हैलो')) {
+                    response = "नमस्ते! मैं आपकी कैसे सहायता कर सकता हूँ?";
+                    speakText("नमस्ते! मैं आपकी कैसे सहायता कर सकता हूँ?");
+                }
+                else if (command.includes('बल्ब') || command.includes('लाइट') || command.includes('रोशनी')) {
                     if (command.includes('चालू') || command.includes('ऑन')) {
                         toggleDevice('lights', 'on');
                         response = "लिविंग रूम की लाइट्स चालू की जा रही हैं";
+                        speakText("लाइट चालू हो गई हैं");
                     } else if (command.includes('बंद') || command.includes('ऑफ')) {
                         toggleDevice('lights', 'off');
                         response = "लिविंग रूम की लाइट्स बंद की जा रही हैं";
+                        speakText("लाइट बंद हो गई हैं");
                     }
                 }
-                else if (command.includes('तापमान') || command.includes('एसी') || command.includes('ठंडा')) {
-                    const tempMatch = command.match(/\d+/);
-                    if (tempMatch) {
-                        const temp = parseInt(tempMatch[0]);
-                        setTemperature(temp);
-                        response = `एसी का तापमान ${temp}°C पर सेट किया जा रहा है`;
-                    } else if (command.includes('बढ़ाएं') || command.includes('ऊपर')) {
-                        adjustTemperature('up');
-                        response = "तापमान बढ़ाया जा रहा है";
-                    } else if (command.includes('कम') || command.includes('नीचे')) {
-                        adjustTemperature('down');
-                        response = "तापमान कम किया जा रहा है";
-                    }
-                }
-                else if (command.includes('टीवी') || command.includes('टेलीविजन')) {
-                    if (command.includes('चालू') || command.includes('ऑन')) {
-                        toggleDevice('tv', 'on');
-                        response = "स्मार्ट टीवी चालू किया जा रहा है";
-                    } else if (command.includes('बंद') || command.includes('ऑफ')) {
-                        toggleDevice('tv', 'off');
-                        response = "स्मार्ट टीवी बंद किया जा रहा है";
-                    }
-                }
-                else if (command.includes('दरवाजा') || command.includes('लॉक')) {
-                    if (command.includes('लॉक')) {
-                        toggleDevice('door', 'lock');
-                        response = "मुख्य दरवाजा लॉक किया जा रहा है";
-                    } else if (command.includes('खोलें') || command.includes('अनलॉक')) {
-                        toggleDevice('door', 'unlock');
-                        response = "मुख्य दरवाजा अनलॉक किया जा रहा है";
-                    }
-                }
-                else if (command.includes('संगीत') || command.includes('गाना') || command.includes('चलाएं')) {
-                    response = "भक्ति संगीत चलाया जा रहा है...";
-                }
-                else if (command.includes('त्योहार') || command.includes('थीम')) {
-                    setFestivalTheme();
-                    response = "त्योहार थीम बदली जा रही है";
+                else if (command.includes('समय')) {
+                    const now = new Date();
+                    const timeString = now.toLocaleTimeString('hi-IN');
+                    response = `वर्तमान समय ${timeString} है`;
+                    speakText(`वर्तमान समय ${timeString} है`);
                 }
                 else if (command.includes('मदद')) {
-                    response = "उपलब्ध आदेश: लाइट्स नियंत्रित करें, तापमान समायोजित करें, टीवी चलाएं, दरवाजा लॉक करें, संगीत चलाएं, थीम बदलें";
+                    response = "मैं मौसम, अनुस्मारक, उपकरण नियंत्रण, अनुवाद और बहुत कुछ में मदद कर सकता हूँ!";
+                    speakText("मैं मौसम, अनुस्मारक, उपकरण नियंत्रण, अनुवाद और बहुत कुछ में मदद कर सकता हूँ!");
+                }
+                else if (command.includes('समस्या') || command.includes('मुश्किल') || command.includes('हल')) {
+                    response = "मुझे आपकी मदद करने में खुशी होगी। क्या आप अपनी समस्या को विस्तार से बता सकते हैं?";
+                    speakText("मुझे आपकी मदद करने में खुशी होगी। क्या आप अपनी समस्या को विस्तार से बता सकते हैं?");
+                }
+                else {
+                    response = "मैं आपका अनुरोध संसाधित कर रहा हूँ। कृपया प्रतीक्षा करें...";
+                    speakText("मैं आपका अनुरोध संसाधित कर रहा हूँ। कृपया प्रतीक्षा करें...");
+                    
+                    // Simulate finding solutions
+                    setTimeout(() => {
+                        commandDisplay.textContent = "मुझे आपके लिए कई समाधान मिले हैं। मैं और कैसे सहायता कर सकता हूँ?";
+                        speakText("मुझे आपके लिए कई समाधान मिले हैं। मैं और कैसे सहायता कर सकता हूँ?");
+                    }, 2000);
                 }
             }
             
             commandDisplay.textContent = response;
-            try {
-                document.getElementById('successSound').play();
-            } catch (e) {
-                console.log("Audio play error:", e);
-            }
             
             // Show processing animation
             voiceStatus.innerHTML = '<i class="fas fa-cog fa-spin"></i> Processing command...';
             setTimeout(() => {
-                voiceStatus.textContent = "Click to activate voice command";
+                voiceStatus.textContent = "Tap and speak to activate";
             }, 2000);
         }
         
@@ -964,7 +1125,7 @@
                 const deviceName = card.querySelector('h3').textContent.toLowerCase();
                 
                 if (
-                    (device === 'lights' && deviceName.includes('light')) ||
+                    (device === 'lights' && deviceName.includes('living')) ||
                     (device === 'tv' && deviceName.includes('tv')) ||
                     (device === 'door' && deviceName.includes('door'))
                 ) {
@@ -1085,7 +1246,8 @@
                     currentLang = 'en-US';
                     langEnglish.classList.add('active');
                     langHindi.classList.remove('active');
-                    commandDisplay.textContent = "Say 'Hey Bharat' followed by your command";
+                    commandDisplay.textContent = "Try: 'What's the weather today?' or 'Turn on the lights'";
+                    speakText("English mode activated");
                 }
             });
             
@@ -1095,7 +1257,8 @@
                     currentLang = 'hi-IN';
                     langHindi.classList.add('active');
                     langEnglish.classList.remove('active');
-                    commandDisplay.textContent = "बोलें 'हे भारत' और फिर अपना आदेश दें";
+                    commandDisplay.textContent = "कोशिश करें: 'आज का मौसम कैसा है?' या 'लाइट चालू करो'";
+                    speakText("हिंदी मोड सक्रिय");
                 }
             });
             
@@ -1109,19 +1272,10 @@
                     keyDisplay.textContent = key;
                     
                     generateBtn.innerHTML = '<i class="fas fa-check"></i> Key Generated!';
-                    try {
-                        document.getElementById('successSound').play();
-                    } catch (e) {
-                        console.log("Audio play error:", e);
-                    }
+                    speakText("Secure key generated successfully");
                 } catch (e) {
                     keyDisplay.textContent = "Error generating key";
                     generateBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Try Again';
-                    try {
-                        document.getElementById('errorSound').play();
-                    } catch (e) {
-                        console.log("Audio play error:", e);
-                    }
                 }
                 
                 setTimeout(() => {
@@ -1138,6 +1292,7 @@
                     
                     if (device && action) {
                         toggleDevice(device, action);
+                        speakText(`${device} ${action}`);
                     }
                 });
             });
@@ -1146,10 +1301,32 @@
             document.querySelectorAll('.command-chip').forEach(chip => {
                 chip.addEventListener('click', () => {
                     commandDisplay.textContent = `Command: "${chip.textContent}"`;
+                    speakText("Processing your command");
                     setTimeout(() => {
                         processVoiceCommand(chip.textContent.replace(/["]/g, ''));
                     }, 500);
                 });
+            });
+            
+            // Search button
+            searchBtn.addEventListener('click', () => {
+                const query = searchBox.value.trim();
+                if (query) {
+                    commandDisplay.textContent = `Searching for: ${query}`;
+                    speakText(`Searching for ${query}`);
+                    
+                    // Simulate search results
+                    setTimeout(() => {
+                        commandDisplay.textContent = `I found several results for "${query}". How can I help further?`;
+                        speakText(`I found several results for "${query}". How can I help further?`);
+                    }, 1500);
+                }
+            });
+            
+            // Mobile menu button
+            mobileMenuBtn.addEventListener('click', () => {
+                const sidebar = document.querySelector('.cultural-sidebar');
+                sidebar.style.display = sidebar.style.display === 'none' ? 'flex' : 'none';
             });
         }
         
